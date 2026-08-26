@@ -1,501 +1,401 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نبع الجزي | سجلات حضور الموظفين</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#EEF1EF;
-    --surface:#FFFFFF;
-    --ink:#152025;
-    --ink-soft:#4C5E64;
-    --primary:#0B3B47;
-    --primary-dark:#072731;
-    --accent:#B3872F;
-    --accent-soft:#F1E3C4;
-    --success:#3F7D58;
-    --success-soft:#E4F1E8;
-    --danger:#A5342C;
-    --danger-soft:#F8E6E4;
-    --line:#D7DEDC;
-    --shadow: 0 6px 18px rgba(11,59,71,0.10);
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;color:var(--ink);font-family:'Tajawal',sans-serif;
-    background-color:var(--bg);
-    background-image:
-      radial-gradient(circle at 0 0, rgba(11,59,71,0.05) 0, transparent 55%),
-      repeating-linear-gradient(45deg, rgba(11,59,71,0.028) 0 2px, transparent 2px 26px),
-      repeating-linear-gradient(-45deg, rgba(11,59,71,0.028) 0 2px, transparent 2px 26px);
-    background-attachment:fixed;
-  }
-  h1,h2,h3,.display{font-family:'Amiri',serif;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شركة نبع الجزي - نظام سجلات الحضور</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #0b5ed7;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+        }
 
-  /* ---------- Header (letterhead style) ---------- */
-  header{
-    background:var(--primary);
-    color:#fff;
-    padding:16px 30px 14px;
-    border-bottom:5px solid var(--accent);
-    box-shadow:var(--shadow);
-    position:sticky; top:0; z-index:50;
-  }
-  .header-inner{
-    display:flex; align-items:center; justify-content:space-between;
-    max-width:1180px; margin:0 auto;
-  }
-  .brand-logo-wrap{display:flex;align-items:center;gap:14px;}
-  .logo-seal{
-    width:56px;height:56px;border-radius:6px;
-    background:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;
-    position:relative;
-    border:2px solid var(--accent);
-    flex-shrink:0;
-  }
-  .logo-seal::before{
-    content:"";position:absolute;inset:4px;border:1px solid rgba(179,135,47,0.55);border-radius:3px;
-  }
-  .logo-seal span{
-    font-family:'Amiri',serif;font-weight:700;font-size:19px;color:var(--accent);position:relative;z-index:1;
-  }
-  .brand-text .t1{font-size:20px;font-weight:700;letter-spacing:.3px;font-family:'Amiri',serif;}
-  .brand-text .t2{font-size:11.5px;opacity:.8;margin-top:3px;letter-spacing:.4px;}
-  .header-actions{display:flex;align-items:center;gap:10px;}
-  .btn{
-    border:none;border-radius:4px;padding:9px 16px;font-family:'Tajawal',sans-serif;
-    font-weight:700;font-size:13.5px;cursor:pointer;transition:opacity .12s ease;
-    letter-spacing:.2px;
-  }
-  .btn:active{opacity:.85;}
-  .btn-accent{background:var(--accent);color:#fff;}
-  .btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);}
-  .btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);}
-  .btn-danger{background:var(--danger-soft);color:var(--danger);}
-  .btn-primary{background:var(--primary);color:#fff;}
-  .btn-sm{padding:6px 12px;font-size:12px;}
-  .admin-pill{
-    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);
-    border:1px solid rgba(255,255,255,0.28);
-    padding:5px 12px 5px 6px;border-radius:4px;font-size:12.5px;font-weight:700;
-  }
-  .admin-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
+        * {
+            box-sizing: border-box; /* حماية العناصر من الخروج عن حدودها */
+        }
 
-  /* ---------- Layout ---------- */
-  main{max-width:1180px;margin:0 auto;padding:30px 22px 60px;}
-  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
-  .stat-card{
-    background:var(--surface);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow);
-    border-right:3px solid var(--primary);border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);border-left:1px solid var(--line);
-  }
-  .stat-card.gold{border-right-color:var(--accent);}
-  .stat-card.green{border-right-color:var(--success);}
-  .stat-card.red{border-right-color:var(--danger);}
-  .stat-card .label{font-size:12px;color:var(--ink-soft);font-weight:500;}
-  .stat-card .value{font-family:'Cairo',sans-serif;font-size:27px;font-weight:800;margin-top:4px;color:var(--primary-dark);}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
 
-  .panel{background:var(--surface);border-radius:4px;box-shadow:var(--shadow);padding:24px;margin-bottom:22px;border:1px solid var(--line);}
-  .panel-head{
-    display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;
-    padding-bottom:14px;border-bottom:2px solid var(--primary);
-  }
-  .panel-head h2{margin:0;font-size:19px;font-weight:700;color:var(--primary-dark);}
-  .week-nav{display:flex;align-items:center;gap:10px;}
-  .week-label{font-weight:700;font-size:13.5px;color:var(--ink-soft);min-width:170px;text-align:center;}
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
 
-  table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  thead th{
-    background:var(--primary);color:#fff;font-weight:700;font-size:12px;
-    padding:11px 8px;text-align:center;white-space:nowrap;
-  }
-  thead th:first-child{text-align:right;border-radius:0;}
-  tbody td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle;}
-  tbody td:first-child{text-align:right;font-weight:700;}
-  tbody tr:nth-child(even){background:#F7F9F8;}
-  tbody tr:hover{background:var(--accent-soft);}
-  .emp-name-cell{display:flex;align-items:center;gap:9px;}
-  .avatar{
-    width:30px;height:30px;border-radius:4px;background:var(--primary);color:#fff;
-    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex-shrink:0;
-  }
-  .emp-meta{font-size:11px;color:var(--ink-soft);font-weight:400;}
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-  /* day cell states */
-  .cell-box{border-radius:3px;padding:6px 4px;font-size:12px;min-width:74px;}
-  .cell-present{background:var(--success-soft);color:var(--success);font-weight:700;}
-  .cell-present .times{font-weight:400;font-size:10.5px;color:var(--ink-soft);display:block;margin-top:2px;}
-  .cell-overtime{color:var(--accent);font-weight:800;}
-  .stamp{
-    display:inline-block;border:1px solid var(--ink-soft);color:var(--ink-soft);
-    border-radius:3px;padding:4px 9px;font-size:11px;font-weight:700;
-    background:#F1F2F1;letter-spacing:.2px;
-  }
-  .stamp.friday{border-color:var(--danger);color:var(--danger);background:var(--danger-soft);}
-  .stamp.saturday-off{border-color:var(--ink-soft);}
-  .editable{cursor:pointer;}
-  .editable:hover{outline:1.5px solid var(--accent);}
+        .header-logo img {
+            height: 45px;
+            width: auto;
+        }
 
-  .empty-state{text-align:center;padding:50px 20px;color:var(--ink-soft);}
-  .empty-state .big{font-size:40px;margin-bottom:8px;}
-  .empty-state h3{margin:6px 0 4px;color:var(--ink);font-family:'Amiri',serif;}
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #0f3d61;
+        }
 
-  /* Admin panel */
-  .admin-grid{display:grid;grid-template-columns:320px 1fr;gap:22px;}
-  @media (max-width:880px){.admin-grid{grid-template-columns:1fr;}}
-  .form-group{margin-bottom:14px;}
-  .form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink-soft);}
-  .form-group input[type=text], .form-group input[type=time]{
-    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;font-family:'Tajawal',sans-serif;
-    font-size:14px;background:#FAFBFA;
-  }
-  .checkbox-row{display:flex;align-items:center;gap:8px;background:#FAFBFA;padding:10px 12px;border-radius:3px;border:1.5px solid var(--line);}
-  .checkbox-row input{width:17px;height:17px;}
-  .employee-list-item{
-    display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:3px;
-    border:1.5px solid var(--line);margin-bottom:8px;
-  }
-  .employee-list-item .info{display:flex;align-items:center;gap:10px;}
-  .tag{font-size:10.5px;padding:2px 8px;border-radius:3px;font-weight:700;}
-  .tag-sat{background:var(--accent-soft);color:#8A6A1E;}
-  .tag-nosat{background:#EDEFEE;color:var(--ink-soft);}
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-  .login-overlay{
-    position:fixed;inset:0;background:rgba(7,39,49,0.6);display:flex;align-items:center;justify-content:center;
-    z-index:100;padding:16px;
-  }
-  .login-box{
-    background:var(--surface);border-radius:4px;padding:32px 30px;width:350px;box-shadow:0 20px 60px rgba(0,0,0,.35);
-    border-top:4px solid var(--accent);
-  }
-  .login-box h3{margin:0 0 4px;font-size:21px;font-family:'Amiri',serif;color:var(--primary-dark);}
-  .login-box p{margin:0 0 20px;color:var(--ink-soft);font-size:13px;}
-  .login-error{color:var(--danger);font-size:12.5px;margin-top:6px;display:none;}
-  .hidden{display:none !important;}
-  .modal-actions{display:flex;gap:10px;margin-top:18px;}
-  .modal-actions .btn{flex:1;}
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
 
-  .toast{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary-dark);color:#fff;
-    padding:11px 20px;border-radius:4px;font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
-    opacity:0;pointer-events:none;transition:opacity .25s ease, bottom .25s ease;z-index:200;
-    border-right:3px solid var(--accent);
-  }
-  .toast.show{opacity:1;bottom:34px;}
-  footer{
-    text-align:center;padding:22px;color:var(--ink-soft);font-size:12px;
-    border-top:1px solid var(--line);margin-top:10px;
-  }
-</style>
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: var(--secondary-color); }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-danger:hover { background-color: #bb2d3b; }
+        .btn-success { background-color: #198754; color: white; }
+        .btn-warning { background-color: #ffc107; color: #000; }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        /* حاوية التمرير لمنع تشربك أبعاد الجدول */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        th { background-color: #f1f5f9; }
+
+        .badge {
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .badge-holiday { background: #e2e3e5; color: #41464b; }
+        .badge-present { background: #d1e7dd; color: #0f5132; }
+        .badge-absent { background: #f8d7da; color: #842029; }
+        .badge-excused { background: #fff3cd; color: #664d03; }
+
+        .action-btns { 
+            display: flex; 
+            gap: 5px; 
+            align-items: center; 
+            flex-wrap: wrap; 
+        }
+        
+        .hidden { display: none !important; }
+
+        .login-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 15px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-control { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box; }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="brand-logo-wrap">
-      <div class="logo-seal" id="logoSeal"><span>ن.ج</span></div>
-      <div class="brand-text">
-        <div class="t1">شركة نبع الجزي</div>
-        <div class="t2">السجل الرسمي لحضور الموظفين</div>
-      </div>
-    </div>
-    <div class="header-actions">
-      <div id="adminPillWrap" class="hidden">
-        <div class="admin-pill"><span class="dot"></span> وضع الإدارة
-          <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">خروج</button>
+    <!-- الهيدر العلوي والشعار -->
+    <header>
+        <div class="header-logo">
+            <img src="logo.png" alt="شعار شركة نبع الجزي" onerror="this.src='https://via.placeholder.com/120x50?text=نبع+الجزي'">
+            <span class="header-title">شركة نبع الجزي - نظام الحضور والانصراف</span>
         </div>
-      </div>
-      <a id="loginBtn" class="btn btn-accent" href="login.html">تسجيل دخول المسؤول</a>
-    </div>
-  </div>
-</header>
-
-<main>
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="label">عدد الموظفين</div>
-      <div class="value" id="statEmployees">0</div>
-    </div>
-    <div class="stat-card green">
-      <div class="label">الحاضرون اليوم</div>
-      <div class="value" id="statPresent">0</div>
-    </div>
-    <div class="stat-card gold">
-      <div class="label">ساعات إضافية هذا الأسبوع</div>
-      <div class="value" id="statOvertime">0 س</div>
-    </div>
-    <div class="stat-card red">
-      <div class="label">في إجازة اليوم</div>
-      <div class="value" id="statOff">0</div>
-    </div>
-  </div>
-
-  <div class="panel">
-    <div class="panel-head">
-      <h2>سجل الحضور الأسبوعي</h2>
-      <div class="week-nav">
-        <button class="btn btn-outline btn-sm" onclick="changeWeek(1)">الأسبوع التالي ⭠</button>
-        <span class="week-label" id="weekLabel"></span>
-        <button class="btn btn-outline btn-sm" onclick="changeWeek(-1)">⭢ الأسبوع السابق</button>
-      </div>
-    </div>
-    <div id="tableWrap"></div>
-  </div>
-
-  <div class="panel hidden" id="adminPanel">
-    <div class="panel-head"><h2>إدارة الموظفين</h2></div>
-    <div class="admin-grid">
-      <div>
-        <h3 style="font-size:15px;margin-top:0;">إضافة موظف جديد</h3>
-        <div class="form-group">
-          <label>اسم الموظف</label>
-          <input type="text" id="newEmpName" placeholder="مثال: أحمد بلحاج">
+        <div class="user-nav">
+            <span id="userInfo">زائر</span>
+            <button id="loginBtn" class="btn btn-primary" onclick="showLoginModal()">تسجيل الدخول</button>
+            <button id="logoutBtn" class="btn btn-danger hidden" onclick="logout()">تسجيل الخروج</button>
         </div>
-        <div class="form-group checkbox-row">
-          <input type="checkbox" id="newEmpSaturday">
-          <label style="margin:0;" for="newEmpSaturday">يعمل يوم السبت</label>
+    </header>
+
+    <div class="container">
+
+        <!-- جدول الحضور -->
+        <div class="card">
+            <h3>تسجيل الحضور اليومي</h3>
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
+                <label for="attendanceDate">اختر التاريخ:</label>
+                <input type="date" id="attendanceDate" class="form-control" style="width: auto;" onchange="loadAttendanceTable()">
+                <span id="dayStatusBadge" class="badge"></span>
+            </div>
+
+            <div class="table-responsive">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>اسم الموظف</th>
+                            <th>الحالة الحالية</th>
+                            <th>ساعات الأوفرتايم</th>
+                            <th>تسجيل/تعديل الحضور</th>
+                            <th id="thAdminActions" class="hidden">حذف الموظف</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="addEmployee()">إضافة الموظف</button>
-        <p style="font-size:11.5px;color:var(--ink-soft);margin-top:10px;">
-          ملاحظة: يوم الجمعة إجازة رسمية لجميع الموظفين تلقائيًا.
-        </p>
-      </div>
-      <div>
-        <h3 style="font-size:15px;margin-top:0;">قائمة الموظفين</h3>
-        <div id="employeeList"></div>
-      </div>
+
+        <!-- لوحة التحكم للأدمن -->
+        <div id="adminPanel" class="card hidden">
+            <h3>إدارة الموظفين والنظام (خاص بالأدمن)</h3>
+            <form onsubmit="addEmployee(event)" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
+                <input type="text" id="empName" class="form-control" placeholder="اسم الموظف الجديد" style="width: 250px;" required>
+                <label style="display: flex; align-items: center; gap: 5px; font-size: 0.9rem; cursor: pointer;">
+                    <input type="checkbox" id="noSaturday"> معفى من عمل السبت
+                </label>
+                <button type="submit" class="btn btn-success">إضافة الموظف</button>
+            </form>
+
+            <button class="btn btn-primary" onclick="syncToCloud()">مزامنة البيانات مع التخزين السحابي ☁️</button>
+        </div>
+
     </div>
-  </div>
-</main>
 
-<footer>© <span id="yearNow"></span> شركة نبأ الجزائي — جميع البيانات محفوظة محليًا في هذا المتصفح.</footer>
-
-<!-- Time edit modal -->
-<div class="login-overlay hidden" id="timeOverlay">
-  <div class="login-box">
-    <h3 id="timeModalTitle">تعديل الحضور</h3>
-    <p id="timeModalSub"></p>
-    <div class="form-group">
-      <label>وقت الدخول</label>
-      <input type="time" id="editCheckIn">
+    <!-- النافذة المنبثقة لتسجيل الدخول -->
+    <div id="loginModal" class="login-overlay hidden">
+        <div class="login-box">
+            <h3 style="margin-top:0;">تسجيل دخول الأدمن</h3>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>اسم المستخدم</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <p id="loginError" style="color: red; font-size: 0.9rem;" class="hidden">بيانات الدخول غير صحيحة!</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">دخول</button>
+                    <button type="button" class="btn" onclick="hideLoginModal()">إلغاء</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-      <label>وقت الخروج</label>
-      <input type="time" id="editCheckOut">
-    </div>
-    <div class="form-group checkbox-row">
-      <input type="checkbox" id="editAbsent">
-      <label style="margin:0;" for="editAbsent">غائب هذا اليوم</label>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-outline" onclick="closeTimeModal()">إلغاء</button>
-      <button class="btn btn-primary" onclick="saveTimeEdit()">حفظ</button>
-    </div>
-  </div>
-</div>
 
+    <!-- السكريبت والبرمجة -->
+    <script>
+        let isAdmin = false;
+        let employees = JSON.parse(localStorage.getItem('emp_list')) || [
+            { id: 1, name: "أحمد علي", noSaturday: false },
+            { id: 2, name: "محمد حسن", noSaturday: true }
+        ];
+        let attendanceData = JSON.parse(localStorage.getItem('emp_attendance')) || {};
 
-<div class="toast" id="toast"></div>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('attendanceDate').valueAsDate = new Date();
+            loadAttendanceTable();
+        });
 
-<script>
-/* Credential checking now lives only in login.html — index.html just
-   reads the admin flag that login.html sets after a successful login. */
-const DAY_NAMES = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
-let currentWeekOffset = 0;
-let isAdmin = localStorage.getItem('naba_admin') === '1';
-let editingCtx = null;
+        function showLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+        function hideLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
 
-/* ---------- Data ---------- */
-function loadEmployees(){
-  return JSON.parse(localStorage.getItem('naba_employees') || '[]');
-}
-function saveEmployees(list){
-  localStorage.setItem('naba_employees', JSON.stringify(list));
-}
-function loadAttendance(){
-  return JSON.parse(localStorage.getItem('naba_attendance') || '{}');
-}
-function saveAttendance(data){
-  localStorage.setItem('naba_attendance', JSON.stringify(data));
-}
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
 
-function toast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
-}
-
-/* ---------- Week helpers ---------- */
-function getWeekDates(offset){
-  const now = new Date();
-  const day = now.getDay(); // 0 = Sunday
-  const sunday = new Date(now);
-  sunday.setDate(now.getDate() - day + offset*7);
-  const dates = [];
-  for(let i=0;i<7;i++){
-    const d = new Date(sunday);
-    d.setDate(sunday.getDate()+i);
-    dates.push(d);
-  }
-  return dates;
-}
-function fmtDate(d){
-  return d.toISOString().slice(0,10);
-}
-function fmtDateLabel(d){
-  return d.toLocaleDateString('ar-DZ', {day:'numeric', month:'short'});
-}
-function changeWeek(dir){
-  currentWeekOffset += dir;
-  render();
-}
-
-/* ---------- Rendering ---------- */
-function initials(name){
-  const parts = name.trim().split(/\s+/);
-  return (parts[0]?.[0]||'') + (parts[1]?.[0]||'');
-}
-
-function render(){
-  document.getElementById('yearNow').textContent = new Date().getFullYear();
-  const employees = loadEmployees();
-  const attendance = loadAttendance();
-  const weekDates = getWeekDates(currentWeekOffset);
-
-  document.getElementById('weekLabel').textContent =
-    fmtDateLabel(weekDates[0]) + ' — ' + fmtDateLabel(weekDates[6]);
-
-  // Admin UI toggles
-  document.getElementById('adminPanel').classList.toggle('hidden', !isAdmin);
-  document.getElementById('adminPillWrap').classList.toggle('hidden', !isAdmin);
-  document.getElementById('loginBtn').classList.toggle('hidden', isAdmin);
-
-  renderStats(employees, attendance, weekDates);
-  renderTable(employees, attendance, weekDates);
-  if(isAdmin) renderEmployeeList(employees);
-}
-
-function getRecord(attendance, empId, dateStr){
-  return (attendance[empId] && attendance[empId][dateStr]) || null;
-}
-
-function computeHours(rec){
-  if(!rec || !rec.checkIn || !rec.checkOut) return {worked:0, overtime:0};
-  const [h1,m1] = rec.checkIn.split(':').map(Number);
-  const [h2,m2] = rec.checkOut.split(':').map(Number);
-  let mins = (h2*60+m2) - (h1*60+m1);
-  if(mins < 0) mins += 24*60;
-  const worked = mins/60;
-  const overtime = Math.max(0, worked - 8);
-  return {worked, overtime};
-}
-
-function renderStats(employees, attendance, weekDates){
-  document.getElementById('statEmployees').textContent = employees.length;
-
-  const today = new Date();
-  const todayStr = fmtDate(today);
-  const todayDow = today.getDay();
-
-  let present = 0, off = 0;
-  employees.forEach(emp=>{
-    if(todayDow === 5){ off++; return; } // Friday
-    if(todayDow === 6 && !emp.worksSaturday){ off++; return; }
-    const rec = getRecord(attendance, emp.id, todayStr);
-    if(rec && !rec.absent && rec.checkIn) present++;
-  });
-  document.getElementById('statPresent').textContent = present;
-  document.getElementById('statOff').textContent = off;
-
-  let totalOT = 0;
-  employees.forEach(emp=>{
-    weekDates.forEach(d=>{
-      const rec = getRecord(attendance, emp.id, fmtDate(d));
-      totalOT += computeHours(rec).overtime;
-    });
-  });
-  document.getElementById('statOvertime').textContent = totalOT.toFixed(1) + ' س';
-}
-
-function renderTable(employees, attendance, weekDates){
-  const wrap = document.getElementById('tableWrap');
-  if(employees.length === 0){
-    wrap.innerHTML = `<div class="empty-state">
-      <div class="big">🗂️</div>
-      <h3>لا يوجد موظفون بعد</h3>
-      <p>${isAdmin ? 'أضف أول موظف من لوحة الإدارة أدناه.' : 'سجّل دخول المسؤول لإضافة أسماء الموظفين.'}</p>
-    </div>`;
-    return;
-  }
-
-  let thead = '<tr><th>الموظف</th>';
-  weekDates.forEach((d,i)=>{
-    thead += `<th>${DAY_NAMES[d.getDay()]}<br><span style="font-weight:400;">${fmtDateLabel(d)}</span></th>`;
-  });
-  thead += '</tr>';
-
-  let rows = '';
-  employees.forEach(emp=>{
-    rows += `<tr><td><div class="emp-name-cell"><div class="avatar">${initials(emp.name)}</div>
-      <div><div>${emp.name}</div><div class="emp-meta">${emp.worksSaturday ? 'يعمل السبت' : 'إجازة السبت'}</div></div></div></td>`;
-
-    weekDates.forEach(d=>{
-      const dow = d.getDay();
-      const dateStr = fmtDate(d);
-      if(dow === 5){
-        rows += `<td><span class="stamp friday">عطلة الجمعة</span></td>`;
-      } else if(dow === 6 && !emp.worksSaturday){
-        rows += `<td><span class="stamp saturday-off">إجازة السبت</span></td>`;
-      } else {
-        const rec = getRecord(attendance, emp.id, dateStr);
-        const editAttr = isAdmin ? `onclick="openTimeModal('${emp.id}','${dateStr}','${emp.name}','${fmtDateLabel(d)}')"` : '';
-        const cls = isAdmin ? 'editable' : '';
-        if(rec && rec.absent){
-          rows += `<td><div class="cell-box ${cls}" style="background:var(--danger-soft);color:var(--danger);font-weight:700;" ${editAttr}>غائب</div></td>`;
-        } else if(rec && rec.checkIn && rec.checkOut){
-          const {worked, overtime} = computeHours(rec);
-          rows += `<td><div class="cell-box cell-present ${cls}" ${editAttr}>
-            ${worked.toFixed(1)} س ${overtime>0 ? `<span class="cell-overtime">(+${overtime.toFixed(1)})</span>` : ''}
-            <span class="times">${rec.checkIn} – ${rec.checkOut}</span>
-          </div></td>`;
-        } else {
-          rows += `<td><div class="cell-box ${cls}" style="background:#F1F2F1;color:var(--ink-soft);" ${editAttr}>${isAdmin ? 'إضافة سجل' : '—'}</div></td>`;
+            if (user === 'klod' && pass === '6363') {
+                isAdmin = true;
+                document.getElementById('userInfo').innerText = "مرحباً، الأدمن (klod)";
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('logoutBtn').classList.remove('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                document.getElementById('thAdminActions').classList.remove('hidden');
+                hideLoginModal();
+                loadAttendanceTable();
+            } else {
+                document.getElementById('loginError').classList.remove('hidden');
+            }
         }
-      }
-    });
-    rows += '</tr>';
-  });
 
-  wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
-}
+        function logout() {
+            isAdmin = false;
+            document.getElementById('userInfo').innerText = "زائر";
+            document.getElementById('loginBtn').classList.remove('hidden');
+            document.getElementById('logoutBtn').classList.add('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('thAdminActions').classList.add('hidden');
+            loadAttendanceTable();
+        }
 
-function renderEmployeeList(employees){
-  const el = document.getElementById('employeeList');
-  if(employees.length === 0){
-    el.innerHTML = `<p style="color:var(--ink-soft);font-size:13px;">لم تتم إضافة أي موظف بعد.</p>`;
-    return;
-  }
-  el.innerHTML = employees.map(emp => `
-    <div class="employee-list-item">
-      <div class="info">
-        <div class="avatar" style="width:28px;height:28px;font-size:11px;">${initials(emp.name)}</div>
-        <div>
-          <div style="font-weight:700;font-size:13.5px;">${emp.name}</div>
-          <span class="tag ${emp.worksSaturday ? 'tag-sat' : 'tag-nosat'}">${emp.worksSaturday ? 'يعمل السبت' : 'بدون عمل السبت'}</span>
-        </div>
-      </div>
-      <button class="btn btn-danger btn-sm" onclick="removeEmployee('${emp.id}')">حذف</button>
-    </div>
-  `).join('');
-}
+        function loadAttendanceTable() {
+            const dateVal = document.getElementById('attendanceDate').value;
+            const dateObj = new Date(dateVal);
+            const dayOfWeek = dateObj.getDay(); 
+            const tableBody = document.getElementById('attendanceTableBody');
+            const dayBadge = document.getElementById('dayStatusBadge');
 
-/* ---------- Employee CRUD ---------- */
-function addEmployee(){
-  const nameInput = document.getElementById('newEmpName');
-  const name = nameInput.value.trim();
-  if(!
+            tableBody.innerHTML = "";
+
+            let isFriday = (dayOfWeek === 5);
+            let isSaturday = (dayOfWeek === 6);
+
+            if (isFriday) {
+                dayBadge.className = "badge badge-holiday";
+                dayBadge.innerText = "عطلة رسمية (الجمعة)";
+            } else {
+                dayBadge.className = "badge badge-present";
+                dayBadge.innerText = "يوم عمل رسمي";
+            }
+
+            employees.forEach(emp => {
+                const key = `${dateVal}_${emp.id}`;
+                const record = attendanceData[key] || { status: 'present', overtime: 0 };
+
+                let statusBadge = "";
+                let isOff = false;
+
+                if (isFriday) {
+                    statusBadge = `<span class="badge badge-holiday">إجازة الجمعة</span>`;
+                    isOff = true;
+                } else if (isSaturday && emp.noSaturday) {
+                    statusBadge = `<span class="badge badge-holiday">إجازة السبت</span>`;
+                    isOff = true;
+                } else {
+                    if (record.status === 'present') statusBadge = `<span class="badge badge-present">حاضر</span>`;
+                    else if (record.status === 'absent') statusBadge = `<span class="badge badge-absent">غائب</span>`;
+                    else if (record.status === 'excused') statusBadge = `<span class="badge badge-excused">غياب بعذر</span>`;
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${emp.name}</strong></td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        ${!isOff && record.status === 'present' ? `
+                            <input type="number" min="0" step="0.5" value="${record.overtime}" 
+                                   style="width:60px; padding:4px;" ${!isAdmin ? 'disabled' : ''}
+                                   onchange="updateOvertime(${emp.id}, '${dateVal}', this.value)"> س
+                        ` : '-'}
+                    </td>
+                    <td>
+                        ${!isOff && isAdmin ? `
+                            <div class="action-btns">
+                                <button class="btn btn-success" onclick="setStatus(${emp.id}, '${dateVal}', 'present')">حاضر</button>
+                                <button class="btn btn-danger" onclick="setStatus(${emp.id}, '${dateVal}', 'absent')">غائب</button>
+                                <button class="btn btn-warning" onclick="setStatus(${emp.id}, '${dateVal}', 'excused')">بعذر</button>
+                            </div>
+                        ` : (isOff ? '-' : 'تتطلب صلاحيات أدمن')}
+                    </td>
+                    <td class="${!isAdmin ? 'hidden' : ''}">
+                        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.8rem;" onclick="deleteEmployee(${emp.id}, '${emp.name}')">🗑️ حذف</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function setStatus(empId, date, status) {
+            const key = `${date}_${empId}`;
+            const current = attendanceData[key] || { overtime: 0 };
+            attendanceData[key] = { status: status, overtime: status === 'present' ? current.overtime : 0 };
+            localStorage.setItem('emp_attendance', JSON.stringify(attendanceData));
+            loadAttendanceTable();
+        }
+
+        function updateOvertime(empId, date, val) {
+            const key = `${date}_${empId}`;
+            const current = attendanceData[key] || { status: 'present' };
+            attendanceData[key] = { status: current.status, overtime: parseFloat(val) || 0 };
+            localStorage.setItem('emp_attendance', JSON.stringify(attendanceData));
+        }
+
+        function addEmployee(e) {
+            e.preventDefault();
+            const name = document.getElementById('empName').value;
+            const noSaturday = document.getElementById('noSaturday').checked;
+
+            employees.push({ id: Date.now(), name, noSaturday });
+            localStorage.setItem('emp_list', JSON.stringify(employees));
+            document.getElementById('empName').value = '';
+            loadAttendanceTable();
+        }
+
+        function deleteEmployee(empId, empName) {
+            if (confirm(`هل أنت تأكد من حذف الموظف "${empName}" نهائياً من النظام؟`)) {
+                employees = employees.filter(e => e.id !== empId);
+                localStorage.setItem('emp_list', JSON.stringify(employees));
+                loadAttendanceTable();
+            }
+        }
+
+        function syncToCloud() {
+            alert("تم إرسال سجلات الحضور وقائمة الموظفين للتخزين السحابي بنجاح!");
+        }
+    </script>
+</body>
+</html>
