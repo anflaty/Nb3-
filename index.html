@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>شركة نبع الجزي - نظام سجلات حضور الموظفين</title>
-  <!-- Tailwind CSS عبر CDN لتصميم عصر وسريع -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome للأيقونات -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
@@ -15,7 +13,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- ==================== 1. نافذة/صفحة تسجيل الدخول ==================== -->
+  <!-- 1. نافذة تسجيل الدخول -->
   <div id="loginSection" class="fixed inset-0 bg-slate-900 bg-opacity-85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-8 transform transition-all">
       <div class="text-center mb-6">
@@ -47,7 +45,7 @@
           </div>
         </div>
 
-        <div id="loginError" class="hidden text-red-600 text-xs text-center font-bold bg-red-50 p-2 rounded-lg border border-red-200">
+        <div id="loginError" class="hidden text-red-600 text-xs text-center font-bold bg-red-50 p-2.5 rounded-lg border border-red-200">
           بيانات الدخول غير صحيحة!
         </div>
 
@@ -63,18 +61,12 @@
     </div>
   </div>
 
-
-  <!-- ==================== 2. الواجهة الرئيسية للموقع ==================== -->
+  <!-- 2. الواجهة الرئيسية -->
   <div id="mainDashboard" class="hidden flex-col min-h-screen">
-    
-    <!-- الهيدر العلوي -->
     <header class="bg-blue-900 text-white shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        
-        <!-- اللوجو يمين في الأعلى -->
         <div class="flex items-center gap-3">
           <div class="bg-white p-2 rounded-xl shadow-md">
-            <!-- استبدل الرابط أدناه برابط اللوجو الخاص بشركتك -->
             <img src="https://via.placeholder.com/50x50/1e3a8a/ffffff?text=NB3" alt="لوجو نبع الجزي" class="h-10 w-10 object-contain">
           </div>
           <div>
@@ -83,7 +75,6 @@
           </div>
         </div>
 
-        <!-- معلومات المسؤول وزر الخروج -->
         <div class="flex items-center gap-4">
           <div class="text-left hidden sm:block">
             <p class="text-xs text-blue-200">مرحباً بك،</p>
@@ -94,14 +85,10 @@
             <span>خروج</span>
           </button>
         </div>
-
       </div>
     </header>
 
-    <!-- محتوى الصفحة -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      
-      <!-- شريط الإحصائيات والمعلومات العامة -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
@@ -144,7 +131,6 @@
         </div>
       </div>
 
-      <!-- نموذج إضافة موظف جديد -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
           <i class="fa-solid fa-user-plus text-blue-700"></i>
@@ -180,7 +166,6 @@
         </form>
       </div>
 
-      <!-- جدول سجلات الحضور والغياب -->
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -210,12 +195,10 @@
               </tr>
             </thead>
             <tbody id="employeesTableBody" class="divide-y divide-slate-100">
-              <!-- يتم إضافة الموظفين ديناميكياً -->
             </tbody>
           </table>
         </div>
       </div>
-
     </main>
 
     <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
@@ -223,34 +206,24 @@
     </footer>
   </div>
 
-  <!-- JS للتشفير وإدارة البيانات مع Firebase -->
   <script>
-    // رابط السحابة الخاص بك
     const FIREBASE_URL = "https://nb3-76671-default-rtdb.europe-west1.firebasedatabase.app";
     
-    // التشفير المسبق لليوزر والباسورد المقبولين (klod / 6363)
-    // klod SHA-256: 7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2
-    // 6363 SHA-256: 251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9
-    const AUTH_HASHES = {
-      u: "7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2",
-      p: "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9"
-    };
+    // قيم التشفير المتوافقة مع klod و 6363
+    const VALID_USER_HASH = "7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2";
+    const VALID_PASS_HASH = "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9";
 
     let employeesData = {};
 
-    // تظبيط التاريخ اليوم افتراضياً
     document.getElementById('attendanceDate').valueAsDate = new Date();
 
-    // دالة التشفير باستخدام SHA-256 API
     async function hashString(str) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(str);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const msgBuffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // التعامل مع تسجيل الدخول
     async function handleLogin(e) {
       e.preventDefault();
       const uInput = document.getElementById('username').value.trim();
@@ -259,7 +232,7 @@
       const uHash = await hashString(uInput);
       const pHash = await hashString(pInput);
 
-      if (uHash === AUTH_HASHES.u && pHash === AUTH_HASHES.p) {
+      if (uHash.toLowerCase() === VALID_USER_HASH && pHash.toLowerCase() === VALID_PASS_HASH) {
         localStorage.setItem('nb3_admin_logged', 'true');
         document.getElementById('loginSection').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
@@ -270,13 +243,11 @@
       }
     }
 
-    // الخروج
     function logout() {
       localStorage.removeItem('nb3_admin_logged');
       location.reload();
     }
 
-    // التحقق عند الفتح إذا كان مسجل سلفاً
     window.onload = function() {
       if (localStorage.getItem('nb3_admin_logged') === 'true') {
         document.getElementById('loginSection').classList.add('hidden');
@@ -286,7 +257,6 @@
       }
     };
 
-    // جلب البيانات من السحابة Firebase
     async function fetchEmployeesFromCloud() {
       try {
         const response = await fetch(`${FIREBASE_URL}/employees.json`);
@@ -298,7 +268,6 @@
       }
     }
 
-    // إضافة موظف جديد للسحابة
     async function handleAddEmployee(e) {
       e.preventDefault();
       const name = document.getElementById('empName').value.trim();
@@ -330,7 +299,6 @@
       }
     }
 
-    // حذف موظف من السحابة
     async function deleteEmployee(id) {
       if (confirm("هل أنت تأكد من إزالة هذا الموظف نهائياً؟")) {
         try {
@@ -344,7 +312,6 @@
       }
     }
 
-    // تغيير حالة الحضور محلياً
     function updateStatus(id, newStatus) {
       if (employeesData[id]) {
         employeesData[id].status = newStatus;
@@ -352,7 +319,6 @@
       }
     }
 
-    // حفظ جميع حالات الحضور للسحابة
     async function saveAttendanceToCloud() {
       const selectedDate = document.getElementById('attendanceDate').value;
       try {
@@ -362,7 +328,6 @@
           body: JSON.stringify(employeesData)
         });
 
-        // أيضاً تحديث الحالة الافتراضية للموظفين
         await fetch(`${FIREBASE_URL}/employees.json`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -375,7 +340,6 @@
       }
     }
 
-    // عرض الموظفين في الجدول
     function renderEmployeesTable() {
       const tbody = document.getElementById('employeesTableBody');
       tbody.innerHTML = '';
@@ -428,7 +392,6 @@
       updateCounters();
     }
 
-    // تحديث الأرقام والإحصائيات
     function updateCounters() {
       const keys = Object.keys(employeesData);
       let present = 0;
