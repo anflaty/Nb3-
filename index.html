@@ -5,112 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>نبأ الجزائي | سجلات حضور الموظفين</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F3F5F4;
+    --bg:#EEF1EF;
     --surface:#FFFFFF;
-    --ink:#122129;
+    --ink:#152025;
     --ink-soft:#4C5E64;
-    --primary:#0F4C5C;
-    --primary-dark:#0A3540;
-    --accent:#C99A3E;
+    --primary:#0B3B47;
+    --primary-dark:#072731;
+    --accent:#B3872F;
     --accent-soft:#F1E3C4;
     --success:#3F7D58;
     --success-soft:#E4F1E8;
-    --danger:#B23A32;
+    --danger:#A5342C;
     --danger-soft:#F8E6E4;
-    --line:#E1E6E5;
-    --shadow: 0 8px 24px rgba(15,76,92,0.08);
+    --line:#D7DEDC;
+    --shadow: 0 6px 18px rgba(11,59,71,0.10);
   }
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Tajawal',sans-serif;}
-  h1,h2,h3,.display{font-family:'Cairo',sans-serif;}
+  body{
+    margin:0;color:var(--ink);font-family:'Tajawal',sans-serif;
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(circle at 0 0, rgba(11,59,71,0.05) 0, transparent 55%),
+      repeating-linear-gradient(45deg, rgba(11,59,71,0.028) 0 2px, transparent 2px 26px),
+      repeating-linear-gradient(-45deg, rgba(11,59,71,0.028) 0 2px, transparent 2px 26px);
+    background-attachment:fixed;
+  }
+  h1,h2,h3,.display{font-family:'Amiri',serif;}
 
-  /* ---------- Header ---------- */
+  /* ---------- Header (letterhead style) ---------- */
   header{
     background:var(--primary);
     color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:14px 28px;
+    padding:16px 30px 14px;
+    border-bottom:5px solid var(--accent);
     box-shadow:var(--shadow);
     position:sticky; top:0; z-index:50;
   }
-  .brand-logo-wrap{display:flex;align-items:center;gap:12px;}
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    max-width:1180px; margin:0 auto;
+  }
+  .brand-logo-wrap{display:flex;align-items:center;gap:14px;}
   .logo-seal{
-    width:52px;height:52px;border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #E7C673, var(--accent));
+    width:56px;height:56px;border-radius:6px;
+    background:var(--primary-dark);
     display:flex;align-items:center;justify-content:center;
-    font-family:'Cairo',sans-serif;font-weight:800;font-size:18px;color:var(--primary-dark);
-    border:2px solid rgba(255,255,255,0.55);
+    position:relative;
+    border:2px solid var(--accent);
     flex-shrink:0;
   }
-  .brand-text .t1{font-size:19px;font-weight:800;letter-spacing:.3px;}
-  .brand-text .t2{font-size:12px;opacity:.75;margin-top:2px;}
+  .logo-seal::before{
+    content:"";position:absolute;inset:4px;border:1px solid rgba(179,135,47,0.55);border-radius:3px;
+  }
+  .logo-seal span{
+    font-family:'Amiri',serif;font-weight:700;font-size:19px;color:var(--accent);position:relative;z-index:1;
+  }
+  .brand-text .t1{font-size:20px;font-weight:700;letter-spacing:.3px;font-family:'Amiri',serif;}
+  .brand-text .t2{font-size:11.5px;opacity:.8;margin-top:3px;letter-spacing:.4px;}
   .header-actions{display:flex;align-items:center;gap:10px;}
   .btn{
-    border:none;border-radius:9px;padding:9px 16px;font-family:'Tajawal',sans-serif;
-    font-weight:700;font-size:14px;cursor:pointer;transition:transform .12s ease, opacity .12s ease;
+    border:none;border-radius:4px;padding:9px 16px;font-family:'Tajawal',sans-serif;
+    font-weight:700;font-size:13.5px;cursor:pointer;transition:opacity .12s ease;
+    letter-spacing:.2px;
   }
-  .btn:active{transform:scale(.96);}
-  .btn-accent{background:var(--accent);color:var(--primary-dark);}
-  .btn-ghost{background:rgba(255,255,255,0.12);color:#fff;}
+  .btn:active{opacity:.85;}
+  .btn-accent{background:var(--accent);color:#fff;}
+  .btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.3);}
   .btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);}
   .btn-danger{background:var(--danger-soft);color:var(--danger);}
   .btn-primary{background:var(--primary);color:#fff;}
-  .btn-sm{padding:6px 12px;font-size:12.5px;}
+  .btn-sm{padding:6px 12px;font-size:12px;}
   .admin-pill{
-    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.14);
-    padding:5px 12px 5px 6px;border-radius:20px;font-size:13px;font-weight:700;
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);
+    border:1px solid rgba(255,255,255,0.28);
+    padding:5px 12px 5px 6px;border-radius:4px;font-size:12.5px;font-weight:700;
   }
-  .admin-pill .dot{width:8px;height:8px;border-radius:50%;background:#5FD98A;box-shadow:0 0 0 3px rgba(95,217,138,.25);}
+  .admin-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);}
 
   /* ---------- Layout ---------- */
-  main{max-width:1180px;margin:0 auto;padding:26px 22px 60px;}
+  main{max-width:1180px;margin:0 auto;padding:30px 22px 60px;}
   .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
   .stat-card{
-    background:var(--surface);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow);
-    border-right:4px solid var(--primary);
+    background:var(--surface);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow);
+    border-right:3px solid var(--primary);border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);border-left:1px solid var(--line);
   }
-  .stat-card.gold{border-color:var(--accent);}
-  .stat-card.green{border-color:var(--success);}
-  .stat-card.red{border-color:var(--danger);}
-  .stat-card .label{font-size:12.5px;color:var(--ink-soft);font-weight:500;}
-  .stat-card .value{font-family:'Cairo',sans-serif;font-size:28px;font-weight:800;margin-top:4px;}
+  .stat-card.gold{border-right-color:var(--accent);}
+  .stat-card.green{border-right-color:var(--success);}
+  .stat-card.red{border-right-color:var(--danger);}
+  .stat-card .label{font-size:12px;color:var(--ink-soft);font-weight:500;}
+  .stat-card .value{font-family:'Cairo',sans-serif;font-size:27px;font-weight:800;margin-top:4px;color:var(--primary-dark);}
 
-  .panel{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:22px;margin-bottom:22px;}
-  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-  .panel-head h2{margin:0;font-size:19px;font-weight:800;}
+  .panel{background:var(--surface);border-radius:4px;box-shadow:var(--shadow);padding:24px;margin-bottom:22px;border:1px solid var(--line);}
+  .panel-head{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;
+    padding-bottom:14px;border-bottom:2px solid var(--primary);
+  }
+  .panel-head h2{margin:0;font-size:19px;font-weight:700;color:var(--primary-dark);}
   .week-nav{display:flex;align-items:center;gap:10px;}
-  .week-label{font-weight:700;font-size:14px;color:var(--ink-soft);min-width:170px;text-align:center;}
+  .week-label{font-weight:700;font-size:13.5px;color:var(--ink-soft);min-width:170px;text-align:center;}
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
   thead th{
-    background:#F6F8F7;color:var(--ink-soft);font-weight:700;font-size:12.5px;
-    padding:10px 8px;border-bottom:2px solid var(--line);text-align:center;white-space:nowrap;
+    background:var(--primary);color:#fff;font-weight:700;font-size:12px;
+    padding:11px 8px;text-align:center;white-space:nowrap;
   }
-  thead th:first-child{text-align:right;}
+  thead th:first-child{text-align:right;border-radius:0;}
   tbody td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle;}
   tbody td:first-child{text-align:right;font-weight:700;}
-  tbody tr:hover{background:#FAFBFA;}
+  tbody tr:nth-child(even){background:#F7F9F8;}
+  tbody tr:hover{background:var(--accent-soft);}
   .emp-name-cell{display:flex;align-items:center;gap:9px;}
   .avatar{
-    width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;
-    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;
+    width:30px;height:30px;border-radius:4px;background:var(--primary);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex-shrink:0;
   }
   .emp-meta{font-size:11px;color:var(--ink-soft);font-weight:400;}
 
   /* day cell states */
-  .cell-box{border-radius:9px;padding:6px 4px;font-size:12px;min-width:74px;}
+  .cell-box{border-radius:3px;padding:6px 4px;font-size:12px;min-width:74px;}
   .cell-present{background:var(--success-soft);color:var(--success);font-weight:700;}
   .cell-present .times{font-weight:400;font-size:10.5px;color:var(--ink-soft);display:block;margin-top:2px;}
   .cell-overtime{color:var(--accent);font-weight:800;}
   .stamp{
-    display:inline-block;border:1.5px dashed var(--ink-soft);color:var(--ink-soft);
-    border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;transform:rotate(-3deg);
-    opacity:.85;background:#F7F7F5;
+    display:inline-block;border:1px solid var(--ink-soft);color:var(--ink-soft);
+    border-radius:3px;padding:4px 9px;font-size:11px;font-weight:700;
+    background:#F1F2F1;letter-spacing:.2px;
   }
   .stamp.friday{border-color:var(--danger);color:var(--danger);background:var(--danger-soft);}
   .stamp.saturday-off{border-color:var(--ink-soft);}
@@ -118,8 +141,8 @@
   .editable:hover{outline:1.5px solid var(--accent);}
 
   .empty-state{text-align:center;padding:50px 20px;color:var(--ink-soft);}
-  .empty-state .big{font-size:44px;margin-bottom:8px;}
-  .empty-state h3{margin:6px 0 4px;color:var(--ink);}
+  .empty-state .big{font-size:40px;margin-bottom:8px;}
+  .empty-state h3{margin:6px 0 4px;color:var(--ink);font-family:'Amiri',serif;}
 
   /* Admin panel */
   .admin-grid{display:grid;grid-template-columns:320px 1fr;gap:22px;}
@@ -127,57 +150,66 @@
   .form-group{margin-bottom:14px;}
   .form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink-soft);}
   .form-group input[type=text], .form-group input[type=time]{
-    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-family:'Tajawal',sans-serif;
+    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;font-family:'Tajawal',sans-serif;
     font-size:14px;background:#FAFBFA;
   }
-  .checkbox-row{display:flex;align-items:center;gap:8px;background:#FAFBFA;padding:10px 12px;border-radius:9px;border:1.5px solid var(--line);}
+  .checkbox-row{display:flex;align-items:center;gap:8px;background:#FAFBFA;padding:10px 12px;border-radius:3px;border:1.5px solid var(--line);}
   .checkbox-row input{width:17px;height:17px;}
   .employee-list-item{
-    display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:10px;
+    display:flex;align-items:center;justify-content:space-between;padding:11px 12px;border-radius:3px;
     border:1.5px solid var(--line);margin-bottom:8px;
   }
   .employee-list-item .info{display:flex;align-items:center;gap:10px;}
-  .tag{font-size:10.5px;padding:2px 8px;border-radius:12px;font-weight:700;}
+  .tag{font-size:10.5px;padding:2px 8px;border-radius:3px;font-weight:700;}
   .tag-sat{background:var(--accent-soft);color:#8A6A1E;}
   .tag-nosat{background:#EDEFEE;color:var(--ink-soft);}
 
   .login-overlay{
-    position:fixed;inset:0;background:rgba(10,20,25,0.55);display:flex;align-items:center;justify-content:center;
+    position:fixed;inset:0;background:rgba(7,39,49,0.6);display:flex;align-items:center;justify-content:center;
     z-index:100;padding:16px;
   }
-  .login-box{background:var(--surface);border-radius:18px;padding:30px 28px;width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
-  .login-box h3{margin:0 0 4px;font-size:20px;}
+  .login-box{
+    background:var(--surface);border-radius:4px;padding:32px 30px;width:350px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+    border-top:4px solid var(--accent);
+  }
+  .login-box h3{margin:0 0 4px;font-size:21px;font-family:'Amiri',serif;color:var(--primary-dark);}
   .login-box p{margin:0 0 20px;color:var(--ink-soft);font-size:13px;}
   .login-error{color:var(--danger);font-size:12.5px;margin-top:6px;display:none;}
   .hidden{display:none !important;}
   .modal-actions{display:flex;gap:10px;margin-top:18px;}
   .modal-actions .btn{flex:1;}
   .toast{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;
-    padding:11px 20px;border-radius:10px;font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary-dark);color:#fff;
+    padding:11px 20px;border-radius:4px;font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
     opacity:0;pointer-events:none;transition:opacity .25s ease, bottom .25s ease;z-index:200;
+    border-right:3px solid var(--accent);
   }
   .toast.show{opacity:1;bottom:34px;}
-  footer{text-align:center;padding:20px;color:var(--ink-soft);font-size:12px;}
+  footer{
+    text-align:center;padding:22px;color:var(--ink-soft);font-size:12px;
+    border-top:1px solid var(--line);margin-top:10px;
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand-logo-wrap">
-    <div class="logo-seal" id="logoSeal">ن.ج</div>
-    <div class="brand-text">
-      <div class="t1">شركة نبأ الجزائي</div>
-      <div class="t2">نظام سجلات حضور الموظفين</div>
-    </div>
-  </div>
-  <div class="header-actions">
-    <div id="adminPillWrap" class="hidden">
-      <div class="admin-pill"><span class="dot"></span> وضع الإدارة
-        <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">خروج</button>
+  <div class="header-inner">
+    <div class="brand-logo-wrap">
+      <div class="logo-seal" id="logoSeal"><span>ن.ج</span></div>
+      <div class="brand-text">
+        <div class="t1">شركة نبأ الجزائي</div>
+        <div class="t2">السجل الرسمي لحضور الموظفين</div>
       </div>
     </div>
-    <button id="loginBtn" class="btn btn-accent" onclick="openLogin()">تسجيل دخول المسؤول</button>
+    <div class="header-actions">
+      <div id="adminPillWrap" class="hidden">
+        <div class="admin-pill"><span class="dot"></span> وضع الإدارة
+          <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">خروج</button>
+        </div>
+      </div>
+      <button id="loginBtn" class="btn btn-accent" onclick="openLogin()">تسجيل دخول المسؤول</button>
+    </div>
   </div>
 </header>
 
@@ -248,11 +280,11 @@
     <p>سجّل الدخول لإدارة أسماء الموظفين وتعديل سجلات الحضور.</p>
     <div class="form-group">
       <label>اسم المستخدم</label>
-      <input type="text" id="loginUser" autocomplete="off">
+      <input type="text" id="loginUser" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
     </div>
     <div class="form-group">
       <label>كلمة المرور</label>
-      <input type="text" id="loginPass" autocomplete="off">
+      <input type="text" id="loginPass" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
     </div>
     <div class="login-error" id="loginError">بيانات الدخول غير صحيحة.</div>
     <div class="modal-actions">
@@ -296,6 +328,19 @@
    deployment, real auth must be done on a server. */
 const _cu = atob("a2xvZA==");
 const _cp = atob("NjM2Mw==");
+
+// Normalizes text typed on an Arabic keyboard/OS: converts Arabic-Indic
+// (٠-٩) and Extended Arabic-Indic (۰-۹) digits to normal 0-9, and strips
+// invisible bidi control characters some browsers insert automatically
+// in RTL text fields — without this, "6363" typed on an Arabic layout
+// can silently become "٦٣٦٣" and never match the stored password.
+function normalizeLoginText(str){
+  return str
+    .replace(/[\u0660-\u0669]/g, c => String(c.charCodeAt(0) - 0x0660))
+    .replace(/[\u06F0-\u06F9]/g, c => String(c.charCodeAt(0) - 0x06F0))
+    .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
+    .trim();
+}
 
 const DAY_NAMES = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 let currentWeekOffset = 0;
@@ -449,51 +494,4 @@ function renderTable(employees, attendance, weekDates){
         const editAttr = isAdmin ? `onclick="openTimeModal('${emp.id}','${dateStr}','${emp.name}','${fmtDateLabel(d)}')"` : '';
         const cls = isAdmin ? 'editable' : '';
         if(rec && rec.absent){
-          rows += `<td><div class="cell-box ${cls}" style="background:var(--danger-soft);color:var(--danger);font-weight:700;" ${editAttr}>غائب</div></td>`;
-        } else if(rec && rec.checkIn && rec.checkOut){
-          const {worked, overtime} = computeHours(rec);
-          rows += `<td><div class="cell-box cell-present ${cls}" ${editAttr}>
-            ${worked.toFixed(1)} س ${overtime>0 ? `<span class="cell-overtime">(+${overtime.toFixed(1)})</span>` : ''}
-            <span class="times">${rec.checkIn} – ${rec.checkOut}</span>
-          </div></td>`;
-        } else {
-          rows += `<td><div class="cell-box ${cls}" style="background:#F1F2F1;color:var(--ink-soft);" ${editAttr}>${isAdmin ? 'إضافة سجل' : '—'}</div></td>`;
-        }
-      }
-    });
-    rows += '</tr>';
-  });
-
-  wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
-}
-
-function renderEmployeeList(employees){
-  const el = document.getElementById('employeeList');
-  if(employees.length === 0){
-    el.innerHTML = `<p style="color:var(--ink-soft);font-size:13px;">لم تتم إضافة أي موظف بعد.</p>`;
-    return;
-  }
-  el.innerHTML = employees.map(emp => `
-    <div class="employee-list-item">
-      <div class="info">
-        <div class="avatar" style="width:28px;height:28px;font-size:11px;">${initials(emp.name)}</div>
-        <div>
-          <div style="font-weight:700;font-size:13.5px;">${emp.name}</div>
-          <span class="tag ${emp.worksSaturday ? 'tag-sat' : 'tag-nosat'}">${emp.worksSaturday ? 'يعمل السبت' : 'بدون عمل السبت'}</span>
-        </div>
-      </div>
-      <button class="btn btn-danger btn-sm" onclick="removeEmployee('${emp.id}')">حذف</button>
-    </div>
-  `).join('');
-}
-
-/* ---------- Employee CRUD ---------- */
-function addEmployee(){
-  const nameInput = document.getElementById('newEmpName');
-  const name = nameInput.value.trim();
-  if(!name){ toast('الرجاء إدخال اسم الموظف'); return; }
-  const worksSaturday = document.getElementById('newEmpSaturday').checked;
-  const employees = loadEmployees();
-  employees.push({ id: 'e_' + Date.now(), name, worksSaturday });
-  saveEmployees(employees);
-  nameIn
+          rows += `<td><div class="cell-box ${cls}" style="b
