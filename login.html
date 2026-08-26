@@ -1,154 +1,78 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل دخول المسؤول | نبع الجزي</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --surface:#FFFFFF;
-    --ink:#152025;
-    --ink-soft:#4C5E64;
-    --primary:#0B3B47;
-    --primary-dark:#072731;
-    --accent:#B3872F;
-    --accent-soft:#F1E3C4;
-    --danger:#A5342C;
-    --danger-soft:#F8E6E4;
-    --line:#D7DEDC;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;color:var(--ink);font-family:'Tajawal',sans-serif;}
-  h1,h2,h3{font-family:'Amiri',serif;}
-
-  #loginPage{
-    min-height:100vh;
-    background-color:var(--primary-dark);
-    background-image:
-      radial-gradient(circle at 100% 0%, rgba(179,135,47,0.18) 0, transparent 45%),
-      repeating-linear-gradient(45deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 26px),
-      repeating-linear-gradient(-45deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 26px);
-    display:flex;flex-direction:column;
-  }
-  .login-page-header{
-    display:flex;align-items:center;gap:14px;
-    padding:22px 30px;border-bottom:4px solid var(--accent);
-  }
-  .logo-seal{
-    width:56px;height:56px;border-radius:6px;background:var(--primary-dark);
-    display:flex;align-items:center;justify-content:center;position:relative;
-    border:2px solid var(--accent);flex-shrink:0;
-  }
-  .logo-seal::before{content:"";position:absolute;inset:4px;border:1px solid rgba(179,135,47,0.55);border-radius:3px;}
-  .logo-seal span{font-family:'Amiri',serif;font-weight:700;font-size:19px;color:var(--accent);position:relative;z-index:1;}
-  .brand-text .t1{color:#fff;font-size:19px;font-weight:700;font-family:'Amiri',serif;}
-  .brand-text .t2{color:var(--accent-soft);font-size:11.5px;margin-top:3px;letter-spacing:.4px;}
-
-  .login-page-body{flex:1;display:flex;align-items:center;justify-content:center;padding:30px 16px;}
-  .login-card{
-    background:var(--surface);width:380px;max-width:100%;border-radius:4px;
-    padding:34px 32px;box-shadow:0 24px 60px rgba(0,0,0,.35);border-top:5px solid var(--accent);
-    position:relative;
-  }
-  .login-card-badge{
-    position:absolute;top:-13px;right:24px;background:var(--danger);color:#fff;
-    font-size:11px;font-weight:700;padding:4px 12px;border-radius:3px;letter-spacing:.3px;
-  }
-  .login-card h3{margin:6px 0 6px;font-size:22px;color:var(--primary-dark);}
-  .login-card p{margin:0 0 22px;color:var(--ink-soft);font-size:13px;line-height:1.7;}
-
-  .form-group{margin-bottom:14px;}
-  .form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink-soft);}
-  .form-group input[type=text]{
-    width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;
-    font-family:'Tajawal',sans-serif;font-size:14px;background:#FAFBFA;
-  }
-  .login-error{color:var(--danger);font-size:12.5px;margin-top:6px;display:none;}
-  .btn{
-    border:none;border-radius:4px;padding:10px 16px;font-family:'Tajawal',sans-serif;
-    font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-top:6px;
-    background:var(--primary);color:#fff;
-  }
-  .btn:active{opacity:.85;}
-  .back-link{
-    display:block;text-align:center;margin-top:18px;font-size:12.5px;color:var(--ink-soft);
-    text-decoration:none;font-weight:700;
-  }
-  .back-link:hover{color:var(--primary);text-decoration:underline;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شركة نبع الجزي - تسجيل الدخول</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+    body { font-family: 'Tajawal', sans-serif; background-color: #f1f5f9; }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-<div id="loginPage">
-  <div class="login-page-header">
-    <div class="logo-seal"><span>ن.ج</span></div>
-    <div class="brand-text">
-      <div class="t1">شركة نبع الجزي</div>
-      <div class="t2">بوابة دخول المسؤول</div>
+  <div class="bg-white rounded-xl shadow-md border border-slate-200 w-full max-w-md p-8">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-slate-800">شركة نبع الجزي</h1>
+      <p class="text-slate-500 text-sm mt-1">بوابة تسجيل دخول النظام الإداري</p>
+    </div>
+
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1">اسم المستخدم</label>
+        <input type="text" id="username" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 focus:border-blue-800 outline-none transition" placeholder="أدخل اسم المستخدم">
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-1">كلمة المرور</label>
+        <input type="password" id="password" required class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-800 focus:border-blue-800 outline-none transition" placeholder="أدخل كلمة المرور">
+      </div>
+
+      <div id="loginError" class="hidden text-red-600 text-xs text-center font-bold bg-red-50 p-2.5 rounded-lg border border-red-200">
+        بيانات الدخول غير صحيحة.
+      </div>
+
+      <button type="submit" class="w-full bg-blue-900 hover:bg-blue-950 text-white font-bold py-2.5 rounded-lg transition text-sm">
+        تسجيل الدخول
+      </button>
+    </form>
+
+    <div class="mt-6 text-center border-t border-slate-100 pt-4">
+      <a href="index.html" class="text-xs text-slate-500 hover:text-slate-800 font-semibold underline">العودة إلى الصفحة الرئيسية</a>
     </div>
   </div>
-  <div class="login-page-body">
-    <div class="login-card">
-      <div class="login-card-badge">منطقة مقيّدة</div>
-      <h3>تسجيل الدخول إلى النظام</h3>
-      <p>هذه الصفحة مخصّصة لمسؤول النظام فقط لإدارة الموظفين وتعديل سجلات الحضور.</p>
-      <div class="form-group">
-        <label>اسم المستخدم</label>
-        <input type="text" id="loginUser" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
-      </div>
-      <div class="form-group">
-        <label>كلمة المرور</label>
-        <input type="text" id="loginPass" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
-      </div>
-      <div class="login-error" id="loginError">بيانات الدخول غير صحيحة. يرجى المحاولة مجددًا.</div>
-      <button class="btn" onclick="doLogin()">دخول</button>
-      <a href="index.html" class="back-link">⭢ العودة إلى الصفحة الرئيسية</a>
-    </div>
-  </div>
-</div>
 
-<script>
-/* NOTE: this is a static front-end page with no server, so this login only
-   hides the admin screen from casual viewers — it is NOT real security.
-   Anyone who reads the page source can decode the credentials below.
-   For real protection, authentication must happen on a server. */
-const _cu = atob("a2xvZA==");
-const _cp = atob("NjM2Mw==");
+  <script>
+    const TARGET_USER_HASH = "7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2";
+    const TARGET_PASS_HASH = "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9";
 
-// Normalizes text typed on an Arabic keyboard/OS: converts Arabic-Indic
-// (٠-٩) and Extended Arabic-Indic (۰-۹) digits to normal 0-9, and strips
-// invisible bidi control characters some browsers insert automatically
-// in RTL text fields — without this, "6363" typed on an Arabic layout
-// can silently become "٦٣٦٣" and never match the stored password.
-function normalizeLoginText(str){
-  return str
-    .replace(/[\u0660-\u0669]/g, c => String(c.charCodeAt(0) - 0x0660))
-    .replace(/[\u06F0-\u06F9]/g, c => String(c.charCodeAt(0) - 0x06F0))
-    .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
-    .trim();
-}
+    async function hashString(str) {
+      if (window.crypto && window.crypto.subtle) {
+        const msgBuffer = new TextEncoder().encode(str);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      } else {
+        return str === 'klod' ? TARGET_USER_HASH : (str === '6363' ? TARGET_PASS_HASH : 'invalid');
+      }
+    }
 
-function doLogin(){
-  const u = normalizeLoginText(document.getElementById('loginUser').value);
-  const p = normalizeLoginText(document.getElementById('loginPass').value);
-  if(u === _cu && p === _cp){
-    // localStorage (not sessionStorage) so the admin flag is visible to
-    // index.html after navigating there, and even if it's opened in a
-    // separate tab — as long as both files are served from the same origin.
-    localStorage.setItem('naba_admin', '1');
-    location.href = 'index.html';
-  } else {
-    document.getElementById('loginError').style.display = 'block';
-    document.getElementById('loginPass').value = '';
-    document.getElementById('loginPass').focus();
-  }
-}
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const uInput = document.getElementById('username').value.trim();
+      const pInput = document.getElementById('password').value.trim();
 
-document.getElementById('loginUser').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
-document.getElementById('loginPass').addEventListener('keydown', e => { if(e.key === 'Enter') doLogin(); });
-document.getElementById('loginUser').focus();
-</script>
+      const uHash = await hashString(uInput);
+      const pHash = await hashString(pInput);
+
+      if (uHash === TARGET_USER_HASH && pHash === TARGET_PASS_HASH) {
+        localStorage.setItem('nb3_admin_logged', 'true');
+        window.location.href = 'index.html';
+      } else {
+        document.getElementById('loginError').classList.remove('hidden');
+      }
+    });
+  </script>
 </body>
 </html>
