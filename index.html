@@ -13,15 +13,184 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- 1. نافذة تسجيل الدخول -->
-  <div id="loginSection" class="fixed inset-0 bg-slate-900 bg-opacity-85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-8 transform transition-all">
+  <!-- ==================== 1. الهيدر العلوي ==================== -->
+  <header class="bg-blue-900 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- اللوجو يمين في الأعلى -->
+      <div class="flex items-center gap-3">
+        <div class="bg-white p-2 rounded-xl shadow-md">
+          <img src="https://via.placeholder.com/50x50/1e3a8a/ffffff?text=NB3" alt="لوجو نبع الجزي" class="h-10 w-10 object-contain">
+        </div>
+        <div>
+          <h1 class="text-xl font-extrabold tracking-wide">شركة نبع الجزي</h1>
+          <p class="text-xs text-blue-200">نظام إدارة الحضور والغياب السحابي</p>
+        </div>
+      </div>
+
+      <!-- أزرار التحكم بحالة الدخول -->
+      <div>
+        <button id="loginBtn" onclick="openLoginModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
+          <i class="fa-solid fa-lock"></i>
+          <span>تسجيل دخول (الأدمن)</span>
+        </button>
+
+        <div id="adminBadge" class="hidden items-center gap-3">
+          <span class="text-xs text-amber-400 font-bold bg-blue-950 px-3 py-1.5 rounded-lg border border-blue-800">
+            <i class="fa-solid fa-user-gear"></i> الأدمن (klod)
+          </span>
+          <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition flex items-center gap-1">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>خروج</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== 2. المحتوى الرئيسي (عرض عام) ==================== -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <!-- إشعار التوضيح للزائر -->
+    <div id="readOnlyNotice" class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-xl text-xs font-bold flex items-center gap-2">
+      <i class="fa-solid fa-circle-info text-base"></i>
+      <span>أنت حالياً في وضع "العرض فقط". لتعديل البيانات، يرجى تسجيل الدخول كأدمن.</span>
+    </div>
+
+    <!-- الإحصائيات العامة -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-bold">إجمالي الموظفين</p>
+          <h3 id="totalEmpCount" class="text-2xl font-black text-slate-800 mt-1">0</h3>
+        </div>
+        <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-xl">
+          <i class="fa-solid fa-users"></i>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-bold">الحضور اليوم</p>
+          <h3 id="presentCount" class="text-2xl font-black text-emerald-600 mt-1">0</h3>
+        </div>
+        <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-xl">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-bold">الغياب اليوم</p>
+          <h3 id="absentCount" class="text-2xl font-black text-rose-600 mt-1">0</h3>
+        </div>
+        <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-xl">
+          <i class="fa-solid fa-user-xmark"></i>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-500 font-bold">إجازة الجمعة العامة</p>
+          <h3 class="text-base font-bold text-amber-600 mt-1">مطبقة للجميع</h3>
+        </div>
+        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- نموذج إضافة موظف جديد (مخفي للزائر، يظهر فقط للأدمن) -->
+    <div id="addEmployeeSection" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-user-plus text-blue-700"></i>
+        إضافة موظف جديد وتحديد خصائصه
+      </h2>
+      
+      <form id="addEmployeeForm" onsubmit="handleAddEmployee(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">اسم الموظف الثلاثي</label>
+          <input type="text" id="empName" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: أحمد علي المحروقي">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 mb-1">المسمى الوظيفي / القسم</label>
+          <input type="text" id="empRole" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: مهندس ميداني">
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+            <input type="checkbox" id="noSaturday" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
+            <span>ليس لديه عمل يوم السبت (إجازة)</span>
+          </label>
+          <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+            <input type="checkbox" id="hasOvertime" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
+            <span>متاح له ساعات إضافية (أوفر تايم)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm shadow transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus"></i>
+          <span>حفظ الموظف بالسحابة</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- جدول سجلات الحضور والغياب -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-800">جدول الحضور اليومي للموظفين</h2>
+          <p class="text-xs text-slate-500">ملاحظة: يوم الجمعة إجازة رسمية لجميع الموظفين بشكل تلقائي.</p>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <input type="date" id="attendanceDate" onchange="fetchAttendanceForDate()" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 bg-slate-50 outline-none focus:ring-2 focus:ring-blue-600">
+          <button id="saveCloudBtn" onclick="saveAttendanceToCloud()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition items-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>حفظ التغييرات بالسحابة</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-right text-sm">
+          <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+            <tr>
+              <th class="p-4">اسم الموظف</th>
+              <th class="p-4">الوظيفة</th>
+              <th class="p-4">حالة يوم السبت</th>
+              <th class="p-4">العمل الإضافي</th>
+              <th class="p-4 text-center">حالة الحضور اليوم</th>
+              <th id="actionsHeader" class="hidden p-4 text-center">إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="employeesTableBody" class="divide-y divide-slate-100">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
+    جميع الحقوق محفوظة © شركة نبع الجزي - نظام الحضور والتخزين السحابي 2026
+  </footer>
+
+  <!-- ==================== 3. نافذة تسجيل الدخول المنبثقة ==================== -->
+  <div id="loginModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-8 relative">
+      <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-600">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+
       <div class="text-center mb-6">
         <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-800 rounded-full mb-3">
           <i class="fa-solid fa-user-shield text-2xl"></i>
         </div>
-        <h2 class="text-2xl font-bold text-slate-800">شركة نبع الجزي</h2>
-        <p class="text-slate-500 text-sm mt-1">تسجيل الدخول لوحة تحكم الأدمن</p>
+        <h2 class="text-2xl font-bold text-slate-800">تسجيل دخول الأدمن</h2>
+        <p class="text-slate-500 text-sm mt-1">أدخل البيانات للتمكن من التعديل والإدارة</p>
       </div>
 
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
@@ -31,7 +200,7 @@
             <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
               <i class="fa-solid fa-user"></i>
             </span>
-            <input type="text" id="username" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition" placeholder="أدخل اسم المستخدم">
+            <input type="text" id="username" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none" placeholder="أدخل اسم المستخدم">
           </div>
         </div>
 
@@ -41,7 +210,7 @@
             <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
               <i class="fa-solid fa-lock"></i>
             </span>
-            <input type="password" id="password" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition" placeholder="أدخل كلمة المرور">
+            <input type="password" id="password" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none" placeholder="أدخل كلمة المرور">
           </div>
         </div>
 
@@ -49,163 +218,15 @@
           بيانات الدخول غير صحيحة!
         </div>
 
-        <button type="submit" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2">
-          <span>تسجيل الدخول</span>
+        <button type="submit" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 rounded-lg shadow-md transition flex items-center justify-center gap-2">
+          <span>دخول اللوحة</span>
           <i class="fa-solid fa-arrow-left"></i>
         </button>
       </form>
-
-      <div class="mt-6 text-center text-xs text-slate-400 border-t border-slate-100 pt-4">
-        النظام موصول بالسحابة التشفيرية لشركة نبع الجزي
-      </div>
     </div>
   </div>
 
-  <!-- 2. الواجهة الرئيسية -->
-  <div id="mainDashboard" class="hidden flex-col min-h-screen">
-    <header class="bg-blue-900 text-white shadow-lg">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="bg-white p-2 rounded-xl shadow-md">
-            <img src="https://via.placeholder.com/50x50/1e3a8a/ffffff?text=NB3" alt="لوجو نبع الجزي" class="h-10 w-10 object-contain">
-          </div>
-          <div>
-            <h1 class="text-xl font-extrabold tracking-wide">شركة نبع الجزي</h1>
-            <p class="text-xs text-blue-200">نظام إدارة الحضور والغياب السحابي</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <div class="text-left hidden sm:block">
-            <p class="text-xs text-blue-200">مرحباً بك،</p>
-            <p class="text-sm font-bold text-amber-400">الأدمن (klod)</p>
-          </div>
-          <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>خروج</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs text-slate-500 font-bold">إجمالي الموظفين</p>
-            <h3 id="totalEmpCount" class="text-2xl font-black text-slate-800 mt-1">0</h3>
-          </div>
-          <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-xl">
-            <i class="fa-solid fa-users"></i>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs text-slate-500 font-bold">الحضور اليوم</p>
-            <h3 id="presentCount" class="text-2xl font-black text-emerald-600 mt-1">0</h3>
-          </div>
-          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-xl">
-            <i class="fa-solid fa-user-check"></i>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs text-slate-500 font-bold">الغياب اليوم</p>
-            <h3 id="absentCount" class="text-2xl font-black text-rose-600 mt-1">0</h3>
-          </div>
-          <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-xl">
-            <i class="fa-solid fa-user-xmark"></i>
-          </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <p class="text-xs text-slate-500 font-bold">إجازة الجمعة العامة</p>
-            <h3 class="text-base font-bold text-amber-600 mt-1">مطبقة للجميع</h3>
-          </div>
-          <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
-            <i class="fa-solid fa-calendar-check"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-user-plus text-blue-700"></i>
-          إضافة موظف جديد وتحديد خصائصه
-        </h2>
-        
-        <form id="addEmployeeForm" onsubmit="handleAddEmployee(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-          <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">اسم الموظف الثلاثي</label>
-            <input type="text" id="empName" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: أحمد علي المحروقي">
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-600 mb-1">المسمى الوظيفي / القسم</label>
-            <input type="text" id="empRole" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: مهندس ميداني">
-          </div>
-
-          <div class="flex flex-col gap-2">
-            <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
-              <input type="checkbox" id="noSaturday" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
-              <span>ليس لديه عمل يوم السبت (إجازة)</span>
-            </label>
-            <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
-              <input type="checkbox" id="hasOvertime" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
-              <span>متاح له ساعات إضافية (أوفر تايم)</span>
-            </label>
-          </div>
-
-          <button type="submit" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm shadow transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-plus"></i>
-            <span>حفظ الموظف بالسحابة</span>
-          </button>
-        </form>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-bold text-slate-800">جدول الحضور اليومي للموظفين</h2>
-            <p class="text-xs text-slate-500">ملاحظة: يوم الجمعة إجازة رسمية لجميع الموظفين بشكل تلقائي.</p>
-          </div>
-          
-          <div class="flex items-center gap-3">
-            <input type="date" id="attendanceDate" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 bg-slate-50 outline-none focus:ring-2 focus:ring-blue-600">
-            <button onclick="saveAttendanceToCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
-              <i class="fa-solid fa-cloud-arrow-up"></i>
-              <span>حفظ التغييرات بالسحابة</span>
-            </button>
-          </div>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-right text-sm">
-            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
-              <tr>
-                <th class="p-4">اسم الموظف</th>
-                <th class="p-4">الوظيفة</th>
-                <th class="p-4">حالة يوم السبت</th>
-                <th class="p-4">العمل الإضافي</th>
-                <th class="p-4 text-center">حالة الحضور اليوم</th>
-                <th class="p-4 text-center">إجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="employeesTableBody" class="divide-y divide-slate-100">
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </main>
-
-    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
-      جميع الحقوق محفوظة © شركة نبع الجزي - نظام الحضور والتخزين السحابي 2026
-    </footer>
-  </div>
-
+  <!-- JS للتفاعل مع السحابة والتحكم في الصلاحيات -->
   <script>
     const FIREBASE_URL = "https://nb3-76671-default-rtdb.europe-west1.firebasedatabase.app";
     
@@ -214,6 +235,7 @@
     const VALID_PASS_HASH = "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9";
 
     let employeesData = {};
+    let isAdmin = false;
 
     document.getElementById('attendanceDate').valueAsDate = new Date();
 
@@ -222,6 +244,15 @@
       const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('loginError').classList.add('hidden');
     }
 
     async function handleLogin(e) {
@@ -234,10 +265,8 @@
 
       if (uHash.toLowerCase() === VALID_USER_HASH && pHash.toLowerCase() === VALID_PASS_HASH) {
         localStorage.setItem('nb3_admin_logged', 'true');
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('mainDashboard').classList.remove('hidden');
-        document.getElementById('mainDashboard').classList.add('flex');
-        fetchEmployeesFromCloud();
+        closeLoginModal();
+        checkAuthState();
       } else {
         document.getElementById('loginError').classList.remove('hidden');
       }
@@ -245,16 +274,34 @@
 
     function logout() {
       localStorage.removeItem('nb3_admin_logged');
-      location.reload();
+      checkAuthState();
+    }
+
+    function checkAuthState() {
+      isAdmin = localStorage.getItem('nb3_admin_logged') === 'true';
+
+      if (isAdmin) {
+        document.getElementById('loginBtn').classList.add('hidden');
+        document.getElementById('adminBadge').classList.remove('hidden');
+        document.getElementById('adminBadge').classList.add('flex');
+        document.getElementById('readOnlyNotice').classList.add('hidden');
+        document.getElementById('addEmployeeSection').classList.remove('hidden');
+        document.getElementById('saveCloudBtn').classList.remove('hidden');
+        document.getElementById('saveCloudBtn').classList.add('flex');
+        document.getElementById('actionsHeader').classList.remove('hidden');
+      } else {
+        document.getElementById('loginBtn').classList.remove('hidden');
+        document.getElementById('adminBadge').classList.add('hidden');
+        document.getElementById('readOnlyNotice').classList.remove('hidden');
+        document.getElementById('addEmployeeSection').classList.add('hidden');
+        document.getElementById('saveCloudBtn').classList.add('hidden');
+        document.getElementById('actionsHeader').classList.add('hidden');
+      }
+      fetchEmployeesFromCloud();
     }
 
     window.onload = function() {
-      if (localStorage.getItem('nb3_admin_logged') === 'true') {
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('mainDashboard').classList.remove('hidden');
-        document.getElementById('mainDashboard').classList.add('flex');
-        fetchEmployeesFromCloud();
-      }
+      checkAuthState();
     };
 
     async function fetchEmployeesFromCloud() {
@@ -268,8 +315,14 @@
       }
     }
 
+    async function fetchAttendanceForDate() {
+      fetchEmployeesFromCloud();
+    }
+
     async function handleAddEmployee(e) {
       e.preventDefault();
+      if (!isAdmin) return;
+
       const name = document.getElementById('empName').value.trim();
       const role = document.getElementById('empRole').value.trim();
       const noSaturday = document.getElementById('noSaturday').checked;
@@ -295,11 +348,12 @@
           fetchEmployeesFromCloud();
         }
       } catch (err) {
-        alert("حدث خطأ أثناء إضافة الموظف بالسحابة!");
+        alert("حدث خطأ أثناء إضافة الموظف!");
       }
     }
 
     async function deleteEmployee(id) {
+      if (!isAdmin) return;
       if (confirm("هل أنت تأكد من إزالة هذا الموظف نهائياً؟")) {
         try {
           await fetch(`${FIREBASE_URL}/employees/${id}.json`, {
@@ -307,19 +361,21 @@
           });
           fetchEmployeesFromCloud();
         } catch (err) {
-          alert("حدث خطأ أثناء الحذف من السحابة");
+          alert("حدث خطأ أثناء الحذف");
         }
       }
     }
 
     function updateStatus(id, newStatus) {
+      if (!isAdmin) return;
       if (employeesData[id]) {
         employeesData[id].status = newStatus;
-        updateCounters();
+        renderEmployeesTable();
       }
     }
 
     async function saveAttendanceToCloud() {
+      if (!isAdmin) return;
       const selectedDate = document.getElementById('attendanceDate').value;
       try {
         await fetch(`${FIREBASE_URL}/attendance/${selectedDate}.json`, {
@@ -346,7 +402,7 @@
 
       const keys = Object.keys(employeesData);
       if (keys.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">لا يوجد موظفين مسجلين حالياً. قم بإضافة موظف جديد.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${isAdmin ? 6 : 5}" class="text-center p-6 text-slate-400">لا يوجد موظفين مسجلين حالياً.</td></tr>`;
         updateCounters();
         return;
       }
@@ -357,6 +413,25 @@
 
         const row = document.createElement('tr');
         row.className = 'hover:bg-slate-50 transition';
+
+        let statusCell = '';
+        if (isAdmin) {
+          statusCell = `
+            <div class="inline-flex rounded-lg border border-slate-200 p-1 bg-slate-100">
+              <button onclick="updateStatus('${id}', 'حاضر')" class="px-3 py-1 text-xs font-bold rounded-md transition ${isPresent ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:text-emerald-700'}">
+                حاضر
+              </button>
+              <button onclick="updateStatus('${id}', 'غائب')" class="px-3 py-1 text-xs font-bold rounded-md transition ${!isPresent ? 'bg-rose-600 text-white shadow' : 'text-slate-600 hover:text-rose-700'}">
+                غائب
+              </button>
+            </div>
+          `;
+        } else {
+          statusCell = isPresent 
+            ? `<span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold"><i class="fa-solid fa-check"></i> حاضر</span>`
+            : `<span class="px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold"><i class="fa-solid fa-xmark"></i> غائب</span>`;
+        }
+
         row.innerHTML = `
           <td class="p-4 font-bold text-slate-800">${emp.name}</td>
           <td class="p-4 text-slate-600">${emp.role}</td>
@@ -370,42 +445,6 @@
               ? `<span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-md text-xs font-bold">متاح (Overtime)</span>` 
               : `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-md text-xs">عادي</span>`}
           </td>
-          <td class="p-4 text-center">
-            <div class="inline-flex rounded-lg border border-slate-200 p-1 bg-slate-100">
-              <button onclick="updateStatus('${id}', 'حاضر')" class="px-3 py-1 text-xs font-bold rounded-md transition ${isPresent ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:text-emerald-700'}">
-                حاضر
-              </button>
-              <button onclick="updateStatus('${id}', 'غائب')" class="px-3 py-1 text-xs font-bold rounded-md transition ${!isPresent ? 'bg-rose-600 text-white shadow' : 'text-slate-600 hover:text-rose-700'}">
-                غائب
-              </button>
-            </div>
-          </td>
-          <td class="p-4 text-center">
-            <button onclick="deleteEmployee('${id}')" class="text-slate-400 hover:text-rose-600 p-2 transition" title="حذف الموظف">
-              <i class="fa-solid fa-trash-can text-base"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-
-      updateCounters();
-    }
-
-    function updateCounters() {
-      const keys = Object.keys(employeesData);
-      let present = 0;
-      let absent = 0;
-
-      keys.forEach(id => {
-        if (employeesData[id].status === 'حاضر') present++;
-        else absent++;
-      });
-
-      document.getElementById('totalEmpCount').textContent = keys.length;
-      document.getElementById('presentCount').textContent = present;
-      document.getElementById('absentCount').textContent = absent;
-    }
-  </script>
-</body>
-</html>
+          <td class="p-4 text-center">${statusCell}</td>
+          ${isAdmin ? `
+       
