@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نبع الجزي | سجلات حضور الموظفين</title>
+<title>نبأ الجزائي | سجلات حضور الموظفين</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@500;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -178,6 +178,7 @@
   .hidden{display:none !important;}
   .modal-actions{display:flex;gap:10px;margin-top:18px;}
   .modal-actions .btn{flex:1;}
+
   .toast{
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--primary-dark);color:#fff;
     padding:11px 20px;border-radius:4px;font-size:13.5px;font-weight:700;box-shadow:var(--shadow);
@@ -198,7 +199,7 @@
     <div class="brand-logo-wrap">
       <div class="logo-seal" id="logoSeal"><span>ن.ج</span></div>
       <div class="brand-text">
-        <div class="t1">شركة نبع الجزي</div>
+        <div class="t1">شركة نبأ الجزائي</div>
         <div class="t2">السجل الرسمي لحضور الموظفين</div>
       </div>
     </div>
@@ -208,7 +209,7 @@
           <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">خروج</button>
         </div>
       </div>
-      <button id="loginBtn" class="btn btn-accent" onclick="openLogin()">تسجيل دخول المسؤول</button>
+      <a id="loginBtn" class="btn btn-accent" href="login.html">تسجيل دخول المسؤول</a>
     </div>
   </div>
 </header>
@@ -273,27 +274,6 @@
 
 <footer>© <span id="yearNow"></span> شركة نبأ الجزائي — جميع البيانات محفوظة محليًا في هذا المتصفح.</footer>
 
-<!-- Login Modal -->
-<div class="login-overlay hidden" id="loginOverlay">
-  <div class="login-box">
-    <h3>دخول المسؤول</h3>
-    <p>سجّل الدخول لإدارة أسماء الموظفين وتعديل سجلات الحضور.</p>
-    <div class="form-group">
-      <label>اسم المستخدم</label>
-      <input type="text" id="loginUser" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
-    </div>
-    <div class="form-group">
-      <label>كلمة المرور</label>
-      <input type="text" id="loginPass" dir="ltr" style="text-align:left;" autocomplete="off" autocapitalize="off" spellcheck="false">
-    </div>
-    <div class="login-error" id="loginError">بيانات الدخول غير صحيحة.</div>
-    <div class="modal-actions">
-      <button class="btn btn-outline" onclick="closeLogin()">إلغاء</button>
-      <button class="btn btn-primary" onclick="doLogin()">دخول</button>
-    </div>
-  </div>
-</div>
-
 <!-- Time edit modal -->
 <div class="login-overlay hidden" id="timeOverlay">
   <div class="login-box">
@@ -318,33 +298,15 @@
   </div>
 </div>
 
+
 <div class="toast" id="toast"></div>
 
 <script>
-/* ================= Credentials (obfuscated, client-side only) =================
-   NOTE: this is a static front-end file with no server, so this login only
-   hides the admin screen from casual viewers — it is NOT real security.
-   Anyone who reads the page source can decode it. For a public/production
-   deployment, real auth must be done on a server. */
-const _cu = atob("a2xvZA==");
-const _cp = atob("NjM2Mw==");
-
-// Normalizes text typed on an Arabic keyboard/OS: converts Arabic-Indic
-// (٠-٩) and Extended Arabic-Indic (۰-۹) digits to normal 0-9, and strips
-// invisible bidi control characters some browsers insert automatically
-// in RTL text fields — without this, "6363" typed on an Arabic layout
-// can silently become "٦٣٦٣" and never match the stored password.
-function normalizeLoginText(str){
-  return str
-    .replace(/[\u0660-\u0669]/g, c => String(c.charCodeAt(0) - 0x0660))
-    .replace(/[\u06F0-\u06F9]/g, c => String(c.charCodeAt(0) - 0x06F0))
-    .replace(/[\u200E\u200F\u202A-\u202E\u2066-\u2069]/g, '')
-    .trim();
-}
-
+/* Credential checking now lives only in login.html — index.html just
+   reads the admin flag that login.html sets after a successful login. */
 const DAY_NAMES = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
 let currentWeekOffset = 0;
-let isAdmin = sessionStorage.getItem('naba_admin') === '1';
+let isAdmin = localStorage.getItem('naba_admin') === '1';
 let editingCtx = null;
 
 /* ---------- Data ---------- */
@@ -494,4 +456,46 @@ function renderTable(employees, attendance, weekDates){
         const editAttr = isAdmin ? `onclick="openTimeModal('${emp.id}','${dateStr}','${emp.name}','${fmtDateLabel(d)}')"` : '';
         const cls = isAdmin ? 'editable' : '';
         if(rec && rec.absent){
-          rows += `<td><div class="cell-box ${cls}" style="b
+          rows += `<td><div class="cell-box ${cls}" style="background:var(--danger-soft);color:var(--danger);font-weight:700;" ${editAttr}>غائب</div></td>`;
+        } else if(rec && rec.checkIn && rec.checkOut){
+          const {worked, overtime} = computeHours(rec);
+          rows += `<td><div class="cell-box cell-present ${cls}" ${editAttr}>
+            ${worked.toFixed(1)} س ${overtime>0 ? `<span class="cell-overtime">(+${overtime.toFixed(1)})</span>` : ''}
+            <span class="times">${rec.checkIn} – ${rec.checkOut}</span>
+          </div></td>`;
+        } else {
+          rows += `<td><div class="cell-box ${cls}" style="background:#F1F2F1;color:var(--ink-soft);" ${editAttr}>${isAdmin ? 'إضافة سجل' : '—'}</div></td>`;
+        }
+      }
+    });
+    rows += '</tr>';
+  });
+
+  wrap.innerHTML = `<table><thead>${thead}</thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderEmployeeList(employees){
+  const el = document.getElementById('employeeList');
+  if(employees.length === 0){
+    el.innerHTML = `<p style="color:var(--ink-soft);font-size:13px;">لم تتم إضافة أي موظف بعد.</p>`;
+    return;
+  }
+  el.innerHTML = employees.map(emp => `
+    <div class="employee-list-item">
+      <div class="info">
+        <div class="avatar" style="width:28px;height:28px;font-size:11px;">${initials(emp.name)}</div>
+        <div>
+          <div style="font-weight:700;font-size:13.5px;">${emp.name}</div>
+          <span class="tag ${emp.worksSaturday ? 'tag-sat' : 'tag-nosat'}">${emp.worksSaturday ? 'يعمل السبت' : 'بدون عمل السبت'}</span>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="removeEmployee('${emp.id}')">حذف</button>
+    </div>
+  `).join('');
+}
+
+/* ---------- Employee CRUD ---------- */
+function addEmployee(){
+  const nameInput = document.getElementById('newEmpName');
+  const name = nameInput.value.trim();
+  if(!
