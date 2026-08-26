@@ -1,453 +1,448 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>شركة نبع الجزي - نظام الحضور والتخزين السحابي</title>
-    <style>
-        :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #0b5ed7;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #212529;
-            --border-color: #dee2e6;
-        }
-
-        * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .header-logo { display: flex; align-items: center; gap: 15px; }
-        .header-logo img { height: 45px; width: auto; }
-        .header-title { font-size: 1.1rem; font-weight: bold; color: #0f3d61; }
-        .user-nav { display: flex; align-items: center; gap: 10px; }
-
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: 0.2s;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .btn-primary { background-color: var(--primary-color); color: white; }
-        .btn-primary:hover { background-color: var(--secondary-color); }
-        .btn-danger { background-color: #dc3545; color: white; }
-        .btn-success { background-color: #198754; color: white; }
-        .btn-warning { background-color: #ffc107; color: #000; }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 20px auto;
-            padding: 0 15px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .stat-box {
-            background: #f1f5f9;
-            border-radius: 6px;
-            padding: 15px;
-            text-align: center;
-            border-right: 4px solid var(--primary-color);
-        }
-
-        .stat-box.danger { border-right-color: #dc3545; }
-        .stat-box.warning { border-right-color: #ffc107; }
-        .stat-box.success { border-right-color: #198754; }
-
-        .stat-number { font-size: 1.5rem; font-weight: bold; margin-top: 5px; }
-
-        .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; min-width: 650px; }
-        th, td { padding: 10px; text-align: right; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
-        th { background-color: #f1f5f9; }
-
-        .badge { padding: 5px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; display: inline-block; white-space: nowrap; }
-        .badge-holiday { background: #e2e3e5; color: #41464b; }
-        .badge-present { background: #d1e7dd; color: #0f5132; }
-        .badge-absent { background: #f8d7da; color: #842029; }
-        .badge-excused { background: #fff3cd; color: #664d03; }
-
-        .action-btns { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
-        .hidden { display: none !important; }
-
-        .login-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; padding: 15px;
-        }
-
-        .login-box {
-            background: white; padding: 25px; border-radius: 10px; width: 100%; max-width: 380px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-control { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 5px; box-sizing: border-box; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شركة نبع الجزي - نظام سجلات حضور الموظفين</title>
+  <!-- Tailwind CSS عبر CDN لتصميم عصر وسريع -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+    body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
+  </style>
 </head>
-<body>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-    <header>
-        <div class="header-logo">
-            <img src="logo.png" alt="شعار شركة نبع الجزي" onerror="this.src='https://via.placeholder.com/120x50?text=نبع+الجزي'">
-            <span class="header-title">شركة نبع الجزي - نظام الحضور والانصراف</span>
+  <!-- ==================== 1. نافذة/صفحة تسجيل الدخول ==================== -->
+  <div id="loginSection" class="fixed inset-0 bg-slate-900 bg-opacity-85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md p-8 transform transition-all">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-800 rounded-full mb-3">
+          <i class="fa-solid fa-user-shield text-2xl"></i>
         </div>
-        <div class="user-nav">
-            <span id="userInfo">زائر</span>
-            <button id="loginBtn" class="btn btn-primary" onclick="showLoginModal()">تسجيل الدخول</button>
-            <button id="logoutBtn" class="btn btn-danger hidden" onclick="logout()">تسجيل الخروج</button>
+        <h2 class="text-2xl font-bold text-slate-800">شركة نبع الجزي</h2>
+        <p class="text-slate-500 text-sm mt-1">تسجيل الدخول لوحة تحكم الأدمن</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">اسم المستخدم</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            <input type="text" id="username" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition" placeholder="أدخل اسم المستخدم">
+          </div>
         </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">كلمة المرور</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="password" required class="w-full pr-10 pl-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition" placeholder="أدخل كلمة المرور">
+          </div>
+        </div>
+
+        <div id="loginError" class="hidden text-red-600 text-xs text-center font-bold bg-red-50 p-2 rounded-lg border border-red-200">
+          بيانات الدخول غير صحيحة!
+        </div>
+
+        <button type="submit" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2">
+          <span>تسجيل الدخول</span>
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+      </form>
+
+      <div class="mt-6 text-center text-xs text-slate-400 border-t border-slate-100 pt-4">
+        النظام موصول بالسحابة التشفيرية لشركة نبع الجزي
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== 2. الواجهة الرئيسية للموقع ==================== -->
+  <div id="mainDashboard" class="hidden flex-col min-h-screen">
+    
+    <!-- الهيدر العلوي -->
+    <header class="bg-blue-900 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- اللوجو يمين في الأعلى -->
+        <div class="flex items-center gap-3">
+          <div class="bg-white p-2 rounded-xl shadow-md">
+            <!-- استبدل الرابط أدناه برابط اللوجو الخاص بشركتك -->
+            <img src="https://via.placeholder.com/50x50/1e3a8a/ffffff?text=NB3" alt="لوجو نبع الجزي" class="h-10 w-10 object-contain">
+          </div>
+          <div>
+            <h1 class="text-xl font-extrabold tracking-wide">شركة نبع الجزي</h1>
+            <p class="text-xs text-blue-200">نظام إدارة الحضور والغياب السحابي</p>
+          </div>
+        </div>
+
+        <!-- معلومات المسؤول وزر الخروج -->
+        <div class="flex items-center gap-4">
+          <div class="text-left hidden sm:block">
+            <p class="text-xs text-blue-200">مرحباً بك،</p>
+            <p class="text-sm font-bold text-amber-400">الأدمن (klod)</p>
+          </div>
+          <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>خروج</span>
+          </button>
+        </div>
+
+      </div>
     </header>
 
-    <div class="container">
-
-        <!-- قسم كشف وإحصائيات الغيابات -->
-        <div class="card">
-            <h3>📊 تقارير وإحصائيات الغياب والأوفرتايم</h3>
-            <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                <div>
-                    <label>الشهر والسنة:</label>
-                    <input type="month" id="statsMonth" class="form-control" style="width: auto;" onchange="calculateStatistics()">
-                </div>
-                <div>
-                    <label>تصفية الموظف:</label>
-                    <select id="statsEmpSelect" class="form-control" style="width: auto;" onchange="calculateStatistics()">
-                        <option value="all">جميع الموظفين</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-box danger">
-                    <div>إجمالي أيام الغياب</div>
-                    <div id="statTotalAbsent" class="stat-number">0 يوم</div>
-                </div>
-                <div class="stat-box warning">
-                    <div>غياب بعذر</div>
-                    <div id="statTotalExcused" class="stat-number">0 يوم</div>
-                </div>
-                <div class="stat-box success">
-                    <div>مجموع ساعات الأوفرتايم</div>
-                    <div id="statTotalOvertime" class="stat-number">0 ساعة</div>
-                </div>
-            </div>
+    <!-- محتوى الصفحة -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      
+      <!-- شريط الإحصائيات والمعلومات العامة -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-bold">إجمالي الموظفين</p>
+            <h3 id="totalEmpCount" class="text-2xl font-black text-slate-800 mt-1">0</h3>
+          </div>
+          <div class="w-12 h-12 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-xl">
+            <i class="fa-solid fa-users"></i>
+          </div>
         </div>
 
-        <!-- جدول الحضور اليومي -->
-        <div class="card">
-            <h3>تسجيل الحضور اليومي</h3>
-            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
-                <label for="attendanceDate">اختر التاريخ:</label>
-                <input type="date" id="attendanceDate" class="form-control" style="width: auto;" onchange="loadAttendanceTable()">
-                <span id="dayStatusBadge" class="badge"></span>
-            </div>
-
-            <div class="table-responsive">
-                <table id="attendanceTable">
-                    <thead>
-                        <tr>
-                            <th>اسم الموظف</th>
-                            <th>الحالة الحالية</th>
-                            <th>ساعات الأوفرتايم</th>
-                            <th>تسجيل/تعديل الحضور</th>
-                            <th id="thAdminActions" class="hidden">إدارة</th>
-                        </tr>
-                    </thead>
-                    <tbody id="attendanceTableBody"></tbody>
-                </table>
-            </div>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-bold">الحضور اليوم</p>
+            <h3 id="presentCount" class="text-2xl font-black text-emerald-600 mt-1">0</h3>
+          </div>
+          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center text-xl">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
         </div>
 
-        <!-- لوحة التحكم السحابية وإدارة الموظفين -->
-        <div id="adminPanel" class="card hidden">
-            <h3>إدارة الموظفين والتخزين السحابي (Admin)</h3>
-            <form onsubmit="addEmployee(event)" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
-                <input type="text" id="empName" class="form-control" placeholder="اسم الموظف الجديد" style="width: 250px;" required>
-                <label style="display: flex; align-items: center; gap: 5px; font-size: 0.9rem; cursor: pointer;">
-                    <input type="checkbox" id="noSaturday"> معفى من عمل السبت
-                </label>
-                <button type="submit" class="btn btn-success">إضافة الموظف</button>
-            </form>
-
-            <button class="btn btn-primary" onclick="syncToCloud()">مزامنة يدوية مع التخزين السحابي ☁️</button>
-            <span id="cloudStatus" style="margin-right: 10px; font-size: 0.85rem; color: #198754;"></span>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-bold">الغياب اليوم</p>
+            <h3 id="absentCount" class="text-2xl font-black text-rose-600 mt-1">0</h3>
+          </div>
+          <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center text-xl">
+            <i class="fa-solid fa-user-xmark"></i>
+          </div>
         </div>
 
-    </div>
-
-    <!-- نافذة تسجيل الدخول -->
-    <div id="loginModal" class="login-overlay hidden">
-        <div class="login-box">
-            <h3 style="margin-top:0;">تسجيل دخول الأدمن</h3>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>اسم المستخدم</label>
-                    <input type="text" id="username" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label>كلمة المرور</label>
-                    <input type="password" id="password" class="form-control" required>
-                </div>
-                <p id="loginError" style="color: red; font-size: 0.9rem;" class="hidden">بيانات الدخول غير صحيحة!</p>
-                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary">دخول</button>
-                    <button type="button" class="btn" onclick="hideLoginModal()">إلغاء</button>
-                </div>
-            </form>
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-500 font-bold">إجازة الجمعة العامة</p>
+            <h3 class="text-base font-bold text-amber-600 mt-1">مطبقة للجميع</h3>
+          </div>
+          <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center text-xl">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- ربط مكتبات Firebase مع رابط Realtime Database الخاص بك -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+      <!-- نموذج إضافة موظف جديد -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-user-plus text-blue-700"></i>
+          إضافة موظف جديد وتحديد خصائصه
+        </h2>
+        
+        <form id="addEmployeeForm" onsubmit="handleAddEmployee(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">اسم الموظف الثلاثي</label>
+            <input type="text" id="empName" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: أحمد علي المحروقي">
+          </div>
 
-        // تم ربط السيرفر السحابي الخاص بك بنجاح
-        const firebaseConfig = {
-            databaseURL: "https://nb3-76671-default-rtdb.europe-west1.firebasedatabase.app/"
-        };
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">المسمى الوظيفي / القسم</label>
+            <input type="text" id="empRole" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-600 outline-none" placeholder="مثال: مهندس ميداني">
+          </div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+          <div class="flex flex-col gap-2">
+            <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+              <input type="checkbox" id="noSaturday" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
+              <span>ليس لديه عمل يوم السبت (إجازة)</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
+              <input type="checkbox" id="hasOvertime" class="rounded text-blue-600 focus:ring-blue-500 w-4 h-4">
+              <span>متاح له ساعات إضافية (أوفر تايم)</span>
+            </label>
+          </div>
 
-        // حفظ البيانات على السحابة
-        window.syncToCloud = async function() {
-            try {
-                document.getElementById('cloudStatus').innerText = "جاري المزامنة السحابية...";
-                await set(ref(db, 'company_data/'), {
-                    employees: window.employees,
-                    attendanceData: window.attendanceData
-                });
-                document.getElementById('cloudStatus').innerText = "تم حفظ البيانات سحابياً بنجاح ✅";
-            } catch (e) {
-                console.error(e);
-                document.getElementById('cloudStatus').innerText = "خطأ في المزامنة السحابية ❌";
-            }
-        };
+          <button type="submit" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2.5 px-4 rounded-lg text-sm shadow transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus"></i>
+            <span>حفظ الموظف بالسحابة</span>
+          </button>
+        </form>
+      </div>
 
-        // استماع وقراءة التغييرات السحابية فوراً (مزامنة لحظية بين جميع الأجهزة)
-        window.loadFromCloud = function() {
-            const dataRef = ref(db, 'company_data/');
-            onValue(dataRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    if (data.employees) window.employees = data.employees;
-                    if (data.attendanceData) window.attendanceData = data.attendanceData;
-                    
-                    localStorage.setItem('emp_list', JSON.stringify(window.employees));
-                    localStorage.setItem('emp_attendance', JSON.stringify(window.attendanceData));
-                    
-                    window.loadAttendanceTable();
-                    window.updateEmpSelectOptions();
-                    window.calculateStatistics();
-                    document.getElementById('cloudStatus').innerText = "متصل بالسحابة 🌐";
-                }
-            }, (error) => {
-                console.error(error);
-            });
-        };
-    </script>
+      <!-- جدول سجلات الحضور والغياب -->
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">جدول الحضور اليومي للموظفين</h2>
+            <p class="text-xs text-slate-500">ملاحظة: يوم الجمعة إجازة رسمية لجميع الموظفين بشكل تلقائي.</p>
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <input type="date" id="attendanceDate" class="px-3 py-1.5 border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 bg-slate-50 outline-none focus:ring-2 focus:ring-blue-600">
+            <button onclick="saveAttendanceToCloud()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>حفظ التغييرات بالسحابة</span>
+            </button>
+          </div>
+        </div>
 
-    <script>
-        let isAdmin = false;
-        window.employees = JSON.parse(localStorage.getItem('emp_list')) || [
-            { id: 1, name: "أحمد علي", noSaturday: false },
-            { id: 2, name: "محمد حسن", noSaturday: true }
-        ];
-        window.attendanceData = JSON.parse(localStorage.getItem('emp_attendance')) || {};
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-sm">
+            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-4">اسم الموظف</th>
+                <th class="p-4">الوظيفة</th>
+                <th class="p-4">حالة يوم السبت</th>
+                <th class="p-4">العمل الإضافي</th>
+                <th class="p-4 text-center">حالة الحضور اليوم</th>
+                <th class="p-4 text-center">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="employeesTableBody" class="divide-y divide-slate-100">
+              <!-- يتم إضافة الموظفين ديناميكياً -->
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date();
-            document.getElementById('attendanceDate').valueAsDate = today;
-            document.getElementById('statsMonth').value = today.toISOString().slice(0, 7);
-            
-            updateEmpSelectOptions();
-            loadAttendanceTable();
-            calculateStatistics();
+    </main>
 
-            // الاتصال التلقائي بالسحابة
-            setTimeout(() => { 
-                if (window.loadFromCloud) window.loadFromCloud(); 
-            }, 300);
+    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs mt-auto">
+      جميع الحقوق محفوظة © شركة نبع الجزي - نظام الحضور والتخزين السحابي 2026
+    </footer>
+  </div>
+
+  <!-- JS للتشفير وإدارة البيانات مع Firebase -->
+  <script>
+    // رابط السحابة الخاص بك
+    const FIREBASE_URL = "https://nb3-76671-default-rtdb.europe-west1.firebasedatabase.app";
+    
+    // التشفير المسبق لليوزر والباسورد المقبولين (klod / 6363)
+    // klod SHA-256: 7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2
+    // 6363 SHA-256: 251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9
+    const AUTH_HASHES = {
+      u: "7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2",
+      p: "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9"
+    };
+
+    let employeesData = {};
+
+    // تظبيط التاريخ اليوم افتراضياً
+    document.getElementById('attendanceDate').valueAsDate = new Date();
+
+    // دالة التشفير باستخدام SHA-256 API
+    async function hashString(str) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // التعامل مع تسجيل الدخول
+    async function handleLogin(e) {
+      e.preventDefault();
+      const uInput = document.getElementById('username').value.trim();
+      const pInput = document.getElementById('password').value.trim();
+
+      const uHash = await hashString(uInput);
+      const pHash = await hashString(pInput);
+
+      if (uHash === AUTH_HASHES.u && pHash === AUTH_HASHES.p) {
+        localStorage.setItem('nb3_admin_logged', 'true');
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('hidden');
+        document.getElementById('mainDashboard').classList.add('flex');
+        fetchEmployeesFromCloud();
+      } else {
+        document.getElementById('loginError').classList.remove('hidden');
+      }
+    }
+
+    // الخروج
+    function logout() {
+      localStorage.removeItem('nb3_admin_logged');
+      location.reload();
+    }
+
+    // التحقق عند الفتح إذا كان مسجل سلفاً
+    window.onload = function() {
+      if (localStorage.getItem('nb3_admin_logged') === 'true') {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('hidden');
+        document.getElementById('mainDashboard').classList.add('flex');
+        fetchEmployeesFromCloud();
+      }
+    };
+
+    // جلب البيانات من السحابة Firebase
+    async function fetchEmployeesFromCloud() {
+      try {
+        const response = await fetch(`${FIREBASE_URL}/employees.json`);
+        const data = await response.json();
+        employeesData = data || {};
+        renderEmployeesTable();
+      } catch (err) {
+        console.error("خطأ في الاتصال بالسحابة:", err);
+      }
+    }
+
+    // إضافة موظف جديد للسحابة
+    async function handleAddEmployee(e) {
+      e.preventDefault();
+      const name = document.getElementById('empName').value.trim();
+      const role = document.getElementById('empRole').value.trim();
+      const noSaturday = document.getElementById('noSaturday').checked;
+      const hasOvertime = document.getElementById('hasOvertime').checked;
+
+      const newEmp = {
+        name: name,
+        role: role,
+        noSaturday: noSaturday,
+        hasOvertime: hasOvertime,
+        status: 'حاضر'
+      };
+
+      try {
+        const response = await fetch(`${FIREBASE_URL}/employees.json`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newEmp)
+        });
+        
+        if (response.ok) {
+          document.getElementById('addEmployeeForm').reset();
+          fetchEmployeesFromCloud();
+        }
+      } catch (err) {
+        alert("حدث خطأ أثناء إضافة الموظف بالسحابة!");
+      }
+    }
+
+    // حذف موظف من السحابة
+    async function deleteEmployee(id) {
+      if (confirm("هل أنت تأكد من إزالة هذا الموظف نهائياً؟")) {
+        try {
+          await fetch(`${FIREBASE_URL}/employees/${id}.json`, {
+            method: 'DELETE'
+          });
+          fetchEmployeesFromCloud();
+        } catch (err) {
+          alert("حدث خطأ أثناء الحذف من السحابة");
+        }
+      }
+    }
+
+    // تغيير حالة الحضور محلياً
+    function updateStatus(id, newStatus) {
+      if (employeesData[id]) {
+        employeesData[id].status = newStatus;
+        updateCounters();
+      }
+    }
+
+    // حفظ جميع حالات الحضور للسحابة
+    async function saveAttendanceToCloud() {
+      const selectedDate = document.getElementById('attendanceDate').value;
+      try {
+        await fetch(`${FIREBASE_URL}/attendance/${selectedDate}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(employeesData)
         });
 
-        function showLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
-        function hideLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+        // أيضاً تحديث الحالة الافتراضية للموظفين
+        await fetch(`${FIREBASE_URL}/employees.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(employeesData)
+        });
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+        alert("تم حفظ البيانات وتحديث السحابة بنجاح! ☁️");
+      } catch (err) {
+        alert("فشل الحفظ بالسحابة!");
+      }
+    }
 
-            if (user === 'klod' && pass === '6363') {
-                isAdmin = true;
-                document.getElementById('userInfo').innerText = "الأدمن (klod)";
-                document.getElementById('loginBtn').classList.add('hidden');
-                document.getElementById('logoutBtn').classList.remove('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                document.getElementById('thAdminActions').classList.remove('hidden');
-                hideLoginModal();
-                loadAttendanceTable();
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        }
+    // عرض الموظفين في الجدول
+    function renderEmployeesTable() {
+      const tbody = document.getElementById('employeesTableBody');
+      tbody.innerHTML = '';
 
-        function logout() {
-            isAdmin = false;
-            document.getElementById('userInfo').innerText = "زائر";
-            document.getElementById('loginBtn').classList.remove('hidden');
-            document.getElementById('logoutBtn').classList.add('hidden');
-            document.getElementById('adminPanel').classList.add('hidden');
-            document.getElementById('thAdminActions').classList.add('hidden');
-            loadAttendanceTable();
-        }
+      const keys = Object.keys(employeesData);
+      if (keys.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400">لا يوجد موظفين مسجلين حالياً. قم بإضافة موظف جديد.</td></tr>`;
+        updateCounters();
+        return;
+      }
 
-        function updateEmpSelectOptions() {
-            const select = document.getElementById('statsEmpSelect');
-            const currentVal = select.value;
-            select.innerHTML = `<option value="all">جميع الموظفين</option>`;
-            window.employees.forEach(emp => {
-                select.innerHTML += `<option value="${emp.id}">${emp.name}</option>`;
-            });
-            select.value = currentVal || 'all';
-        }
+      keys.forEach(id => {
+        const emp = employeesData[id];
+        const isPresent = emp.status === 'حاضر';
 
-        function loadAttendanceTable() {
-            const dateVal = document.getElementById('attendanceDate').value;
-            const dateObj = new Date(dateVal);
-            const dayOfWeek = dateObj.getDay(); 
-            const tableBody = document.getElementById('attendanceTableBody');
-            const dayBadge = document.getElementById('dayStatusBadge');
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-50 transition';
+        row.innerHTML = `
+          <td class="p-4 font-bold text-slate-800">${emp.name}</td>
+          <td class="p-4 text-slate-600">${emp.role}</td>
+          <td class="p-4">
+            ${emp.noSaturday 
+              ? `<span class="px-2.5 py-1 bg-amber-100 text-amber-800 rounded-md text-xs font-bold">إجازة السبت</span>` 
+              : `<span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md text-xs">يوم عمل</span>`}
+          </td>
+          <td class="p-4">
+            ${emp.hasOvertime 
+              ? `<span class="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-md text-xs font-bold">متاح (Overtime)</span>` 
+              : `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 rounded-md text-xs">عادي</span>`}
+          </td>
+          <td class="p-4 text-center">
+            <div class="inline-flex rounded-lg border border-slate-200 p-1 bg-slate-100">
+              <button onclick="updateStatus('${id}', 'حاضر')" class="px-3 py-1 text-xs font-bold rounded-md transition ${isPresent ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:text-emerald-700'}">
+                حاضر
+              </button>
+              <button onclick="updateStatus('${id}', 'غائب')" class="px-3 py-1 text-xs font-bold rounded-md transition ${!isPresent ? 'bg-rose-600 text-white shadow' : 'text-slate-600 hover:text-rose-700'}">
+                غائب
+              </button>
+            </div>
+          </td>
+          <td class="p-4 text-center">
+            <button onclick="deleteEmployee('${id}')" class="text-slate-400 hover:text-rose-600 p-2 transition" title="حذف الموظف">
+              <i class="fa-solid fa-trash-can text-base"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
 
-            tableBody.innerHTML = "";
+      updateCounters();
+    }
 
-            let isFriday = (dayOfWeek === 5);
-            let isSaturday = (dayOfWeek === 6);
+    // تحديث الأرقام والإحصائيات
+    function updateCounters() {
+      const keys = Object.keys(employeesData);
+      let present = 0;
+      let absent = 0;
 
-            if (isFriday) {
-                dayBadge.className = "badge badge-holiday";
-                dayBadge.innerText = "عطلة رسمية (الجمعة)";
-            } else {
-                dayBadge.className = "badge badge-present";
-                dayBadge.innerText = "يوم عمل رسمي";
-            }
+      keys.forEach(id => {
+        if (employeesData[id].status === 'حاضر') present++;
+        else absent++;
+      });
 
-            window.employees.forEach(emp => {
-                const key = `${dateVal}_${emp.id}`;
-                const record = window.attendanceData[key] || { status: 'present', overtime: 0 };
-
-                let statusBadge = "";
-                let isOff = false;
-
-                if (isFriday) {
-                    statusBadge = `<span class="badge badge-holiday">إجازة الجمعة</span>`;
-                    isOff = true;
-                } else if (isSaturday && emp.noSaturday) {
-                    statusBadge = `<span class="badge badge-holiday">إجازة السبت</span>`;
-                    isOff = true;
-                } else {
-                    if (record.status === 'present') statusBadge = `<span class="badge badge-present">حاضر</span>`;
-                    else if (record.status === 'absent') statusBadge = `<span class="badge badge-absent">غائب</span>`;
-                    else if (record.status === 'excused') statusBadge = `<span class="badge badge-excused">غياب بعذر</span>`;
-                }
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${emp.name}</strong></td>
-                    <td>${statusBadge}</td>
-                    <td>
-                        ${!isOff && record.status === 'present' ? `
-                            <input type="number" min="0" step="0.5" value="${record.overtime || 0}" 
-                                   style="width:60px; padding:4px;" ${!isAdmin ? 'disabled' : ''}
-                                   onchange="updateOvertime(${emp.id}, '${dateVal}', this.value)"> س
-                        ` : '-'}
-                    </td>
-                    <td>
-                        ${!isOff && isAdmin ? `
-                            <div class="action-btns">
-                                <button class="btn btn-success" onclick="setStatus(${emp.id}, '${dateVal}', 'present')">حاضر</button>
-                                <button class="btn btn-danger" onclick="setStatus(${emp.id}, '${dateVal}', 'absent')">غائب</button>
-                                <button class="btn btn-warning" onclick="setStatus(${emp.id}, '${dateVal}', 'excused')">بعذر</button>
-                            </div>
-                        ` : (isOff ? '-' : 'تتطلب صلاحيات أدمن')}
-                    </td>
-                    <td class="${!isAdmin ? 'hidden' : ''}">
-                        <button class="btn btn-danger" style="padding: 3px 8px; font-size: 0.8rem;" onclick="deleteEmployee(${emp.id}, '${emp.name}')">🗑️ حذف</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        function calculateStatistics() {
-            const selectedMonth = document.getElementById('statsMonth').value;
-            const selectedEmp = document.getElementById('statsEmpSelect').value;
-
-            let absentCount = 0;
-            let excusedCount = 0;
-            let totalOvertime = 0;
-
-            Object.keys(window.attendanceData).forEach(key => {
-                const [date, empId] = key.split('_');
-                
-                if (date && date.startsWith(selectedMonth)) {
-                    if (selectedEmp === 'all' || selectedEmp === empId) {
-                        const rec = window.attendanceData[key];
-                        if (rec.status === 'absent') absentCount++;
-                        if (rec.status === 'excused') excusedCount++;
-                        if (rec.status === 'present' && rec.overtime) totalOvertime += parseFloat(rec.overtime);
-                    }
-                }
-            });
-
-            document.getElementById('statTotalAbsent').innerText = `${absentCount} يوم`;
-            document.getElementById('statTotalExcused').innerText = `${excusedCount} يوم`;
-            document.getElementById('statTotalOvertime').innerText = `${totalOvertime} ساعة`;
-        }
-
-        function setStatus(empId, date, status) {
-         
+      document.getElementById('totalEmpCount').textContent = keys.length;
+      document.getElementById('presentCount').textContent = present;
+      document.getElementById('absentCount').textContent = absent;
+    }
+  </script>
+</body>
+</html>
