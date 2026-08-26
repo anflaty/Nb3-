@@ -44,29 +44,14 @@
   </div>
 
   <script>
-    const TARGET_USER_HASH = "7d25e0bc13ee0c03478cbbf8e9ef9700d3d438ed2e6e30d10c06834dd9b867c2";
-    const TARGET_PASS_HASH = "251f280a581e2b5883626be4f107f917544ef247e62a2657d42cfc053a4792c9";
-
-    async function hashString(str) {
-      if (window.crypto && window.crypto.subtle) {
-        const msgBuffer = new TextEncoder().encode(str);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      } else {
-        return str === 'klod' ? TARGET_USER_HASH : (str === '6363' ? TARGET_PASS_HASH : 'invalid');
-      }
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
+      
       const uInput = document.getElementById('username').value.trim();
       const pInput = document.getElementById('password').value.trim();
 
-      const uHash = await hashString(uInput);
-      const pHash = await hashString(pInput);
-
-      if (uHash === TARGET_USER_HASH && pHash === TARGET_PASS_HASH) {
+      // التحقق المباشر بدون تعقيدات التشفير الضارة بالهواتف المحمولة
+      if (uInput === 'klod' && pInput === '6363') {
         localStorage.setItem('nb3_admin_logged', 'true');
         window.location.href = 'index.html';
       } else {
